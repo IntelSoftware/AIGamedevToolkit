@@ -332,12 +332,12 @@ MonoBehaviour:
   inferenceToggle: 1
   useAsync: 0
   targetDims: {x: 640, y: 640}
-  yoloxActive: 0
+  yoloxActive: 1
   YOLOXDevices: CPU
   YOLOXModels: yolox_l
   nmsThreshold: 0.45
   minConfidence: 0.3
-  styleTransferIntelActive: 1
+  styleTransferIntelActive: 0
   styleTransferIntelDevices: CPU
   styleTransferIntelModels: mesh-shader_fp16.xml
 --- !u!4 &1223598104 stripped
