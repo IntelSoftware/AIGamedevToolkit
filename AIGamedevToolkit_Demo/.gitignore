@@ -1,0 +1,7 @@
+Build/*
+Logs/*
+cache/*
+Logs/*
+Temp/*
+Library/*
+# Assets/StreamingAssets/*

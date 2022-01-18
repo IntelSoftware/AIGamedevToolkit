@@ -1,0 +1,22 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel FlipXAxis
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<half4> Result;
+// Stores the input image and is set with cs.SetTexture
+Texture2D<half4> InputImage;
+
+
+// The height of the input image
+int height;
+// Stores the new location for individual pixel values
+int2 coords;
+
+[numthreads(4, 4, 1)]
+void FlipXAxis(uint3 id : SV_DispatchThreadID)
+{
+    // Update the y value for the pixel coordinates
+    coords = int2(id.x, height - id.y);
+    Result[id.xy] = float4(InputImage[coords].x, InputImage[coords].y, InputImage[coords].z, 1.0f);
+}
