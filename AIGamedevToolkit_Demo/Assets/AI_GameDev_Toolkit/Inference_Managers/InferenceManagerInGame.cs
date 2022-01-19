@@ -55,7 +55,6 @@ public class InferenceManagerInGame : MonoBehaviour
     public static List<string> styleTransferIntelModelList = new List<string>();
 
 
-    private string currentVideo;
     private string currentYOLOXDevice;
     private string currentYOLOXModel;
 
@@ -219,20 +218,17 @@ public class InferenceManagerInGame : MonoBehaviour
         {
             cocoYOLOX = new YOLOXOpenVINO();
             styleTransferOpenVINO = new StyleTransferOpenVINO();
+
+            // Initialize the dropdown menus
+            InitializeDropdowns();
+            // Perform the requred 
+            InitializationSteps();
         }
         else
         {
             inferenceToggle = performInference = false;
             Debug.Log("No Intel hardware detected");
         }
-
-        // Get the names of the video clips
-        //foreach (VideoClip clip in videoClips) videoNames.Add(clip.name);
-
-        // Initialize the dropdown menus
-        InitializeDropdowns();
-        // Perform the requred 
-        InitializationSteps();
     }
 
     /// <summary>
@@ -274,54 +270,54 @@ public class InferenceManagerInGame : MonoBehaviour
             UpdateInputDims();
         }
 
-        //if (currentVideo != Videos)
-        //{
-        //    InitializationSteps();
-        //}
 
-        // YOLOX
-        if (nmsThreshold != cocoYOLOX.GetNMSThreshold())
+
+
+        if (performInference)
         {
-            cocoYOLOX.SetInstanceNMSThreshold(nmsThreshold);
+            // YOLOX
+            if (nmsThreshold != cocoYOLOX.GetNMSThreshold())
+            {
+                cocoYOLOX.SetInstanceNMSThreshold(nmsThreshold);
+            }
+
+            if (minConfidence != cocoYOLOX.GetConfThreshold())
+            {
+                cocoYOLOX.SetInstanceConfidenceThreshold(minConfidence);
+            }
+
+            if (performInference != inferenceToggle)
+            {
+                UpdateInferenceValue();
+            }
+
+            if (currentYOLOXDevice != YOLOXDevices)
+            {
+                currentYOLOXDevice = YOLOXDevices;
+                InitializationSteps();
+
+            }
+
+            if (currentYOLOXModel != YOLOXModels)
+            {
+                currentYOLOXModel = YOLOXModels;
+                InitializationSteps();
+            }
+
+            // Style Transfer
+            if (currentStyleTransferIntelDevice != styleTransferIntelDevices)
+            {
+                currentStyleTransferIntelDevice = styleTransferIntelDevices;
+                InitializationSteps();
+
+            }
+
+            if (currentStyleTransferIntelModel != styleTransferIntelModels)
+            {
+                currentStyleTransferIntelModel = styleTransferIntelModels;
+                InitializationSteps();
+            }
         }
-
-        if (minConfidence != cocoYOLOX.GetConfThreshold())
-        {
-            cocoYOLOX.SetInstanceConfidenceThreshold(minConfidence);
-        }
-
-        if (performInference != inferenceToggle)
-        {
-            UpdateInferenceValue();
-        }
-
-        if (currentYOLOXDevice != YOLOXDevices)
-        {
-            currentYOLOXDevice = YOLOXDevices;
-            InitializationSteps();
-            
-        }
-
-        if (currentYOLOXModel != YOLOXModels)
-        {
-            currentYOLOXModel = YOLOXModels;
-            InitializationSteps();
-        }
-
-        // Style Transfer
-        if (currentStyleTransferIntelDevice != styleTransferIntelDevices)
-        {
-            currentStyleTransferIntelDevice = styleTransferIntelDevices;
-            InitializationSteps();
-
-        }
-
-        if (currentStyleTransferIntelModel != styleTransferIntelModels)
-        {
-            currentStyleTransferIntelModel = styleTransferIntelModels;
-            InitializationSteps();
-        }
-
         
     }
 
@@ -352,7 +348,15 @@ public class InferenceManagerInGame : MonoBehaviour
 
     private void OnDisable()
     {
-        cocoYOLOX.CleanUp();
+        try
+        {
+            cocoYOLOX.CleanUp();
+            styleTransferOpenVINO.CleanUp();
+        }
+        catch
+        {
+
+        }
     }
 
 
