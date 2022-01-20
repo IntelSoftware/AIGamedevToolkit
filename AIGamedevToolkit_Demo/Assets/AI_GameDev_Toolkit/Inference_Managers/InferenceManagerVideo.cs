@@ -291,33 +291,7 @@ public class InferenceManagerVideo : MonoBehaviour
     /// </summary>
     private void InitializationSteps()
     {
-        if (useWebcam)
-        {
-            // Initialize webcam
-            InitializeWebcam();
-        }
-        else
-        {
-            currentVideo = Videos;
-
-            // Set Initial video clip
-            videoScreen.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(currentVideo)];
-            // Update the videoDims.y
-            videoDims.y = (int)videoScreen.GetComponent<VideoPlayer>().height;
-            // Update the videoDims.x
-            videoDims.x = (int)videoScreen.GetComponent<VideoPlayer>().width;
-        }
-
-
-        // Create a new videoTexture using the current video dimensions
-        videoTexture = RenderTexture.GetTemporary(videoDims.x, videoDims.y, 24, RenderTextureFormat.ARGB32);
-
-        // Initialize the videoScreen
-        InitializeVideoScreen(videoDims.x, videoDims.y);
-        // Adjust the camera based on the source video dimensions
-        InitializeCamera();
-        // Initialize the textures that store the model input
-        InitializeTextures();
+        
         // Set up the neural network for the OpenVINO inference engine
         cocoYOLOX.SetInputDims(imageDims);
         if (currentYOLOXDevice.Length > 0 && currentYOLOXModel.Length > 0)
@@ -349,24 +323,55 @@ public class InferenceManagerVideo : MonoBehaviour
     {
         boxTex = Texture2D.whiteTexture;
 
+
+        // Get the names of the video clips
+        foreach (VideoClip clip in videoClips) videoNames.Add(clip.name);
+
+        if (useWebcam)
+        {
+            // Initialize webcam
+            InitializeWebcam();
+        }
+        else
+        {
+            currentVideo = Videos;
+
+            // Set Initial video clip
+            videoScreen.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(currentVideo)];
+            // Update the videoDims.y
+            videoDims.y = (int)videoScreen.GetComponent<VideoPlayer>().height;
+            // Update the videoDims.x
+            videoDims.x = (int)videoScreen.GetComponent<VideoPlayer>().width;
+        }
+
+
+        // Create a new videoTexture using the current video dimensions
+        videoTexture = RenderTexture.GetTemporary(videoDims.x, videoDims.y, 24, RenderTextureFormat.ARGB32);
+
+        // Initialize the videoScreen
+        InitializeVideoScreen(videoDims.x, videoDims.y);
+        // Adjust the camera based on the source video dimensions
+        InitializeCamera();
+        // Initialize the textures that store the model input
+        InitializeTextures();
+
+
+
         if (OpenVINOUtils.IntelHardwarePresent())
         {
             cocoYOLOX = new YOLOXOpenVINO();
             styleTransferOpenVINO = new StyleTransferOpenVINO();
+
+            // Initialize the dropdown menus
+            InitializeDropdowns();
+            // Perform the requred 
+            InitializationSteps();
         }
         else
         {
             inferenceToggle = performInference = false;
             Debug.Log("No Intel hardware detected");
         }
-
-        // Get the names of the video clips
-        foreach (VideoClip clip in videoClips) videoNames.Add(clip.name);
-
-        // Initialize the dropdown menus
-        InitializeDropdowns();
-        // Perform the requred 
-        InitializationSteps();
     }
 
     /// <summary>
@@ -431,50 +436,52 @@ public class InferenceManagerVideo : MonoBehaviour
             InitializationSteps();
         }
 
-        // YOLOX
-        if (nmsThreshold != cocoYOLOX.GetNMSThreshold())
+
+        if (performInference)
         {
-            cocoYOLOX.SetInstanceNMSThreshold(nmsThreshold);
-        }
+            // YOLOX
+            if (nmsThreshold != cocoYOLOX.GetNMSThreshold())
+            {
+                cocoYOLOX.SetInstanceNMSThreshold(nmsThreshold);
+            }
 
-        if (minConfidence != cocoYOLOX.GetConfThreshold())
-        {
-            cocoYOLOX.SetInstanceConfidenceThreshold(minConfidence);
-        }
+            if (minConfidence != cocoYOLOX.GetConfThreshold())
+            {
+                cocoYOLOX.SetInstanceConfidenceThreshold(minConfidence);
+            }
 
-        if (performInference != inferenceToggle)
-        {
-            UpdateInferenceValue();
-        }
+            if (performInference != inferenceToggle)
+            {
+                UpdateInferenceValue();
+            }
 
-        if (currentYOLOXDevice != YOLOXDevices)
-        {
-            currentYOLOXDevice = YOLOXDevices;
-            InitializationSteps();
-            
-        }
+            if (currentYOLOXDevice != YOLOXDevices)
+            {
+                currentYOLOXDevice = YOLOXDevices;
+                InitializationSteps();
 
-        if (currentYOLOXModel != YOLOXModels)
-        {
-            currentYOLOXModel = YOLOXModels;
-            InitializationSteps();
-        }
+            }
 
-        // Style Transfer
-        if (currentStyleTransferIntelDevice != styleTransferIntelDevices)
-        {
-            currentStyleTransferIntelDevice = styleTransferIntelDevices;
-            InitializationSteps();
+            if (currentYOLOXModel != YOLOXModels)
+            {
+                currentYOLOXModel = YOLOXModels;
+                InitializationSteps();
+            }
 
-        }
+            // Style Transfer
+            if (currentStyleTransferIntelDevice != styleTransferIntelDevices)
+            {
+                currentStyleTransferIntelDevice = styleTransferIntelDevices;
+                InitializationSteps();
 
-        if (currentStyleTransferIntelModel != styleTransferIntelModels)
-        {
-            currentStyleTransferIntelModel = styleTransferIntelModels;
-            InitializationSteps();
-        }
+            }
 
-        
+            if (currentStyleTransferIntelModel != styleTransferIntelModels)
+            {
+                currentStyleTransferIntelModel = styleTransferIntelModels;
+                InitializationSteps();
+            }
+        }        
     }
 
 
@@ -546,7 +553,15 @@ public class InferenceManagerVideo : MonoBehaviour
 
     private void OnDisable()
     {
-        cocoYOLOX.CleanUp();
+        try
+        {
+            cocoYOLOX.CleanUp();
+            styleTransferOpenVINO.CleanUp();
+        }
+        catch
+        {
+
+        }
     }
 
 
