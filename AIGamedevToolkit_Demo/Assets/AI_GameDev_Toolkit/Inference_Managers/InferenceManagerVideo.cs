@@ -285,7 +285,6 @@ public class InferenceManagerVideo : MonoBehaviour
     }
 
 
-
     /// <summary>
     /// Perform the initialization steps required when the model input is updated
     /// </summary>
@@ -317,6 +316,18 @@ public class InferenceManagerVideo : MonoBehaviour
         }
     }
 
+
+    public void OnVideoInputChange()
+    {
+        // Create a new videoTexture using the current video dimensions
+        videoTexture = RenderTexture.GetTemporary(videoDims.x, videoDims.y, 24, RenderTextureFormat.ARGB32);
+
+        // Initialize the videoScreen
+        InitializeVideoScreen(videoDims.x, videoDims.y);
+        // Adjust the camera based on the source video dimensions
+        InitializeCamera();
+    }
+
     
     // Start is called before the first frame update
     void Start()
@@ -331,27 +342,17 @@ public class InferenceManagerVideo : MonoBehaviour
         {
             // Initialize webcam
             InitializeWebcam();
+
         }
         else
         {
-            currentVideo = Videos;
-
-            // Set Initial video clip
-            videoScreen.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(currentVideo)];
-            // Update the videoDims.y
-            videoDims.y = (int)videoScreen.GetComponent<VideoPlayer>().height;
-            // Update the videoDims.x
-            videoDims.x = (int)videoScreen.GetComponent<VideoPlayer>().width;
+            UpdateVideo();
         }
 
+        OnVideoInputChange();
 
-        // Create a new videoTexture using the current video dimensions
-        videoTexture = RenderTexture.GetTemporary(videoDims.x, videoDims.y, 24, RenderTextureFormat.ARGB32);
 
-        // Initialize the videoScreen
-        InitializeVideoScreen(videoDims.x, videoDims.y);
-        // Adjust the camera based on the source video dimensions
-        InitializeCamera();
+
         // Initialize the textures that store the model input
         InitializeTextures();
 
@@ -413,11 +414,14 @@ public class InferenceManagerVideo : MonoBehaviour
             }
             else
             {
+                InitializeWebcam();
+                OnVideoInputChange();
                 UseWebcam();
             }
         }
         else if (webcamTexture != null && webcamTexture.isPlaying)
         {
+            OnVideoInputChange();
             UseWebcam();
         }
         
@@ -433,7 +437,12 @@ public class InferenceManagerVideo : MonoBehaviour
 
         if (currentVideo != Videos)
         {
-            InitializationSteps();
+            UpdateVideo();
+            OnVideoInputChange();
+            if (performInference)
+            {
+                InitializationSteps();
+            }
         }
 
 
@@ -516,8 +525,17 @@ public class InferenceManagerVideo : MonoBehaviour
     {
         if (videoScreen.GetComponent<VideoPlayer>().enabled == false) return;
 
+        currentVideo = Videos;
+
+        // Set Initial video clip
+        videoScreen.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(currentVideo)];
+        // Update the videoDims.y
+        videoDims.y = (int)videoScreen.GetComponent<VideoPlayer>().height;
+        // Update the videoDims.x
+        videoDims.x = (int)videoScreen.GetComponent<VideoPlayer>().width;
+
         Debug.Log($"Selected Video: {videoNames.IndexOf(currentVideo)}");
-        InitializationSteps();
+        
     }
 
     /// <summary>
