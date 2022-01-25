@@ -6,8 +6,8 @@ public class WebcamManager : MonoBehaviour
 {
 
     [Header("Webcam")]
-    [Tooltip("Use webcam feed as input")]
-    public bool useWebcam = false;
+    //[Tooltip("Use webcam feed as input")]
+    //public bool useWebcam = false;
     [Tooltip("The requested webcam dimensions")]
     public Vector2Int webcamDims = new Vector2Int(1280, 720);
     [Tooltip("The requested webcam frame rate")]
@@ -29,29 +29,29 @@ public class WebcamManager : MonoBehaviour
 
         // Create a new WebCamTexture
         webcamTexture = new WebCamTexture(webcamDims.x, webcamDims.y, webcamFPS);
+        //Debug.Log(webcamTexture.deviceName);
 
         // Start the Camera
         webcamTexture.Play();
 
-        //if (webcamTexture.width == 16)
-        //{
-        //    webcamTexture.Stop();
-        //    Debug.Log("\nUnable to initialize a webcam.\n");
-        //    useWebcam = false;
-        //}
-        //else
-        //{
-        //    // Limit application framerate to the target webcam framerate
-        //    Application.targetFrameRate = webcamFPS;
+        if (webcamTexture.width == 16)
+        {
+            webcamTexture.Stop();
+            Debug.Log("Unable to initialize a webcam. Disabling Webcam Manager");
+            gameObject.SetActive(false);
+            //useWebcam = false;
+            return;
+        }
+        else
+        {
+            // Limit application framerate to the target webcam framerate
+            Application.targetFrameRate = webcamFPS;
 
-        //    // Deactivate the Video Player
-        //    videoScreen.GetComponent<VideoPlayer>().enabled = false;
-
-        //    // Update the videoDims.y
-        //    videoDims.y = webcamTexture.height;
-        //    // Update the videoDims.x
-        //    videoDims.x = webcamTexture.width;
-        //}
+            // Create a new videoTexture using the current video dimensions
+            int width = webcamTexture.width;
+            int height = webcamTexture.height;
+            videoTexture.renderTexture = RenderTexture.GetTemporary(width, height, 24, RenderTextureFormat.ARGB32);
+        }
 
     }
 
@@ -87,7 +87,7 @@ public class WebcamManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         InitializeWebcam();
     }
@@ -95,6 +95,8 @@ public class WebcamManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Graphics.Blit(webcamTexture, videoTexture.renderTexture);
+
         //if (useWebcam)
         //{
         //    if (webcamTexture != null && webcamTexture.isPlaying)
