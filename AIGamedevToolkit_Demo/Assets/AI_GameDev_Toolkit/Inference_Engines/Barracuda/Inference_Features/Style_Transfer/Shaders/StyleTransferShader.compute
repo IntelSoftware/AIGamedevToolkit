@@ -1,0 +1,25 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel ProcessInput
+#pragma kernel ProcessOutput
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<half4> Result;
+// Stores the input image and is set with cs.SetTexture
+Texture2D<half4> InputImage;
+
+[numthreads(8, 8, 1)]
+void ProcessInput(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = half4((InputImage[id.xy].r * 255.0h),
+        (InputImage[id.xy].g * 255.0h),
+        (InputImage[id.xy].b * 255.0h), 1.0h);
+}
+
+[numthreads(8, 8, 1)]
+void ProcessOutput(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = half4((clamp(InputImage[id.xy].r, 0.0f, 255.0f) / 255.0f),
+        (clamp(InputImage[id.xy].g, 0.0f, 255.0f) / 255.0f),
+        (clamp(InputImage[id.xy].b, 0.0f, 255.0f) / 255.0f), 1.0h);
+}

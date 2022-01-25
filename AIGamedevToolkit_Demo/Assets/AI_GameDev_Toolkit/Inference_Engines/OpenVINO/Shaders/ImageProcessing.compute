@@ -13,10 +13,10 @@ int height;
 // Stores the new location for individual pixel values
 int2 coords;
 
-[numthreads(4, 4, 1)]
+[numthreads(8, 8, 1)]
 void FlipXAxis(uint3 id : SV_DispatchThreadID)
 {
     // Update the y value for the pixel coordinates
     coords = int2(id.x, height - id.y);
-    Result[id.xy] = float4(InputImage[coords].x, InputImage[coords].y, InputImage[coords].z, 1.0f);
+    Result[id.xy] = float4(InputImage[coords].r, InputImage[coords].g, InputImage[coords].b, 1.0f);
 }

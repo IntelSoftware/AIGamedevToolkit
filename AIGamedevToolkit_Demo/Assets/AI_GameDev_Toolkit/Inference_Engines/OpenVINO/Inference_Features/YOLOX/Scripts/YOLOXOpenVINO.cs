@@ -260,6 +260,7 @@ public class YOLOXOpenVINO
     /// <param name="newDims"></param>
     public void SetInputDims(Vector2Int newDims)
     {
+        //Debug.Log($"New Dims: {newDims}");
         inputDims = newDims;
     }
 

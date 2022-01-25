@@ -23,7 +23,7 @@ public class OpenVINOUtils
     public static void FlipImage(ComputeShader computeShader, RenderTexture image, string functionName)
     {
         // Specify the number of threads on the GPU
-        int numthreads = 4;
+        int numthreads = 8;
         // Get the index for the PreprocessResNet function in the ComputeShader
         int kernelHandle = computeShader.FindKernel(functionName);
 
