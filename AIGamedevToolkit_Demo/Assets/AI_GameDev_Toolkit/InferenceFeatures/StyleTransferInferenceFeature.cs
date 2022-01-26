@@ -80,9 +80,9 @@ public class StyleTransferInferenceFeature : InferenceFeatureVision, IOpenVINOIn
         modelList = new List<string>();
         deviceList = new List<string>(styleTransferOpenVINO.GetAvailableDevices());
         //Debug.Log($"First device available for {this.name} is {deviceList[0]}");
-        currentDevice = Devices;
+        currentDevice = deviceList[0];
         modelList = new List<string>(styleTransferOpenVINO.GetAvailableModels());
-        currentModel = Models;
+        currentModel = modelList[0];
     }
 
 
