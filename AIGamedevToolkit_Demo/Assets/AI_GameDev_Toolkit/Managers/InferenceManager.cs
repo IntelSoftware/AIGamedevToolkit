@@ -32,7 +32,7 @@ public class InferenceManager : MonoBehaviour
     public void Awake()
     {
         #if UNITY_EDITOR_WIN
-                return;
+                //Debug.Log("");
         #else
 
         Debug.Log("Checking for plugins.xml file");
@@ -51,6 +51,26 @@ public class InferenceManager : MonoBehaviour
             }
 
         #endif
+
+        intelHardware = OpenVINOUtils.IntelHardwarePresent();
+
+        foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
+        {
+            if (inferenceFeature is IOpenVINOInferenceFeature && intelHardware == false)
+            {
+                inferenceFeature.active = false;
+
+            }
+            else
+            {
+                //Debug.Log($"Instantiating {inferenceFeature.name}");
+                inferenceFeature.Instantiate();
+                inferenceFeature.InitializeDropdowns();
+            }
+        }
+
+        // Perform the requred 
+        InitializeFeatures();
     }
 
 
@@ -104,25 +124,7 @@ public class InferenceManager : MonoBehaviour
     void Start()
     {
 
-        intelHardware = OpenVINOUtils.IntelHardwarePresent();
-
-        foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
-        {
-            if (inferenceFeature is IOpenVINOInferenceFeature && intelHardware == false)
-            {
-                inferenceFeature.active = false;
-                
-            }
-            else
-            {
-                //Debug.Log($"Instantiating {inferenceFeature.name}");
-                inferenceFeature.Instantiate();
-                inferenceFeature.InitializeDropdowns();
-            }
-        }
-
-        // Perform the requred 
-        InitializeFeatures();
+        
     }
     
     
