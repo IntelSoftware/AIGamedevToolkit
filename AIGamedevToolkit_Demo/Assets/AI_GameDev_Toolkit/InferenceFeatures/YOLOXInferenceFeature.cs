@@ -89,9 +89,9 @@ public class YOLOXInferenceFeature : InferenceFeatureObjectDetection, IOpenVINOI
         
         deviceList = new List<string>(yoloxOpenVINO.GetAvailableDevices());
         //Debug.Log($"First device available for {this.name} is {deviceList[0]}");
-        currentDevice = Devices;
+        currentDevice = deviceList[0];
         modelList = new List<string>(yoloxOpenVINO.GetAvailableModels());
-        currentModel = Models;
+        currentModel = modelList[0];
     }
 
 
