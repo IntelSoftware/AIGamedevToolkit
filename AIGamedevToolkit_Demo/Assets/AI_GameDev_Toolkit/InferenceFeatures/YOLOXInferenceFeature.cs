@@ -84,6 +84,8 @@ public class YOLOXInferenceFeature : InferenceFeatureObjectDetection, IOpenVINOI
 
     public override void InitializeDropdowns()
     {
+        Devices = "";
+        Models = "";
         currentDevice = "";
         currentModel = "";
         deviceList = new List<string>(yoloxOpenVINO.GetAvailableDevices());
