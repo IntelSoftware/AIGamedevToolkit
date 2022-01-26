@@ -76,6 +76,8 @@ public class StyleTransferInferenceFeature : InferenceFeatureVision, IOpenVINOIn
 
     public override void InitializeDropdowns()
     {
+        Devices = "";
+        Models = "";
         currentDevice = "";
         currentModel = "";
         deviceList = new List<string>(styleTransferOpenVINO.GetAvailableDevices());
