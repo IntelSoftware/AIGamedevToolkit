@@ -1,2 +1,0 @@
-* text=auto
-*.bin filter=lfs diff=lfs merge=lfs binary

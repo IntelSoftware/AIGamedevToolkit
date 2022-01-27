@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab0ff316ff14264da535afc258bfd0e, type: 3}
+  m_Name: StyleTransfer_OpenVINO
+  m_EditorClassIdentifier: 
+  active: 0
+  inputTexture: {fileID: 11400000, guid: 747bb74e2613690429cb71f4d0d0724c, type: 2}
+  targetDims: {x: 960, y: 540}
+  imageDims: {x: 960, y: 540}
+  modelAssets:
+  - {fileID: 11400000, guid: 05285b83ead7c7d4a82172f5b7f1493a, type: 2}
+  - {fileID: 11400000, guid: bb4f1b53fefcf3342bc3b5d90c1ff0e9, type: 2}
+  computeShader: {fileID: 7200000, guid: 3a534990e7346f147a9cca3aef65d000, type: 3}
+  Devices: GPU.1
+  Models: MeshShaderStyleTransfer
+  currentDevice: GPU.1
+  currentModel: mesh-shader_fp16.xml
