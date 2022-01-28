@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5cac6b315e728b40bb9e15f20f2d8c3, type: 3}
   m_Name: MeshShaderStyleTransfer
   m_EditorClassIdentifier: 
-  modelPath: 
-  streamingAssetsPath: 
-  modelFile: {fileID: 0}
+  modelPath: Assets/AIGamedevToolkit/InferenceEngines/OpenVINO/InferenceFeatures/StyleTransfer/StyleTransferModels/mesh-shader_fp16.xml
+  streamingAssetsPath: MeshShaderStyleTransfer
+  modelFile: {fileID: 4900000, guid: 64f680f33be90cf4ab9a46f1b83524a5, type: 3}
