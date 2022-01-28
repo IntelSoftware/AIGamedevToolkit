@@ -26,6 +26,7 @@ namespace AIGamedevToolkit
             Model m_RuntimeModel = ModelLoader.Load(modelAsset);
 
             // Create a worker that will execute the model with the selected backend
+            ComputeInfo.channelsOrder = ComputeInfo.ChannelsOrder.NCHW;
             engine = WorkerFactory.CreateWorker(workerType, m_RuntimeModel);
         }
 
