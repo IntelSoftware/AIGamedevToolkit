@@ -81,6 +81,8 @@ namespace AIGamedevToolkit
             {
                 CopyToStreamingAssets(scriptableModel, streamingAssetsDir);
             }
+
+            EditorUtility.SetDirty(scriptableModel);
         }
 
 
