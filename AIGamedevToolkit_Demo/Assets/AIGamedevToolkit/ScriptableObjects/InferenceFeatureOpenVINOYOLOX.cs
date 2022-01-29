@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -202,6 +203,135 @@ namespace AIGamedevToolkit
 
             }
         }
+
+        public override void ApplyToScene()
+        {
+            // make sure base gets called so we got an inference manager
+            base.ApplyToScene();
+
+            // Add the bounding box manager Game Object
+            GameObject bbmGO = GameObject.Find("Bounding Box Manager");
+            if (bbmGO == null)
+            {
+                bbmGO = new GameObject("Bounding Box Manager");
+            }
+
+            // Attach the bounding box component
+            BoundingBoxManager boundingBoxManager = bbmGO.GetComponent<BoundingBoxManager>();
+            if (boundingBoxManager == null)
+            {
+                boundingBoxManager = bbmGO.AddComponent<BoundingBoxManager>();
+            }
+
+            if (boundingBoxManager.objectDetectors == null || boundingBoxManager.objectDetectors.Length <= 0)
+            {
+#if UNITY_EDITOR
+                string objectDetectorPath = Utils.GetAssetPath("COCO_YOLOX", "asset");
+                InferenceFeatureObjectDetection2D objectDetection2D = (InferenceFeatureObjectDetection2D)AssetDatabase.LoadAssetAtPath(objectDetectorPath, typeof(InferenceFeatureObjectDetection2D));
+                boundingBoxManager.objectDetectors = new InferenceFeatureObjectDetection2D[1] { objectDetection2D };
+#endif
+            }
+
+        }
+
+        public override void DrawEditorOptions()
+        {
+#if UNITY_EDITOR
+            SerializedObject serializedObject = new SerializedObject(this);
+
+            SerializedProperty m_ActiveProp = serializedObject.FindProperty("active");
+            SerializedProperty m_InputTextureProp = serializedObject.FindProperty("inputTexture");
+            SerializedProperty m_ModelAssetsProp = serializedObject.FindProperty("modelAssets");
+            SerializedProperty m_ClassListProp = serializedObject.FindProperty("classList");
+            SerializedProperty m_DisplayBoxesProp = serializedObject.FindProperty("displayBoundingBoxes");
+            SerializedProperty m_ComputeShaderProp = serializedObject.FindProperty("computeShader");
+            SerializedProperty m_ModelsProp = serializedObject.FindProperty("Models");
+            SerializedProperty m_DevicesProp = serializedObject.FindProperty("Devices");
+            SerializedProperty m_NmsProp = serializedObject.FindProperty("nmsThreshold");
+            SerializedProperty m_MinConfidenceProp = serializedObject.FindProperty("minConfidence");
+            SerializedProperty m_TargetDimsProp = serializedObject.FindProperty("targetDims");
+
+            EditorGUILayout.PropertyField(m_ActiveProp, new GUIContent("Active"));
+            EditorGUILayout.PropertyField(m_InputTextureProp, new GUIContent("Input Texture"));
+
+
+            EditorGUILayout.LabelField("Image Processing", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(m_ComputeShaderProp, new GUIContent("ComputeShader"));
+
+
+            EditorGUILayout.LabelField("Model", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(m_ModelAssetsProp, new GUIContent("Model Assets"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+
+            EditorGUILayout.LabelField("Object Detection", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(m_ClassListProp, new GUIContent("Class List"));
+            EditorGUILayout.PropertyField(m_DisplayBoxesProp, new GUIContent("Display Bounding Boxes"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+
+            EditorGUILayout.LabelField("YOLOX", EditorStyles.boldLabel);
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(m_ModelsProp, new GUIContent("Models"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                UpdateModel();
+            }
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(m_DevicesProp, new GUIContent("Devices"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                UpdateDevice();
+            }
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(m_NmsProp, new GUIContent("NMS Threshold"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                UpdateNMSThreshold();
+            }
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(m_MinConfidenceProp, new GUIContent("Minimum Confidence"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                UpdateMinConfidence();
+            }
+
+            EditorGUI.BeginChangeCheck();
+            serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.PropertyField(m_TargetDimsProp, new GUIContent("Input Dimensions"));
+            // Apply changes to the serializedProperty
+            serializedObject.ApplyModifiedProperties();
+            if (EditorGUI.EndChangeCheck())
+            {
+                UpdateInputDims();
+            }
+
+            EditorGUILayout.LabelField("Build Preparation", EditorStyles.boldLabel);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(14 * EditorGUI.indentLevel);
+            if (GUILayout.Button("Copy Models to StreamingAssets"))
+            {
+                string streamingAssetsDir = "Assets/StreamingAssets";
+                foreach (ModelOpenVINO modelAsset in modelAssets)
+                {
+                    InferenceModelEditorUtils.CopyToStreamingAssets(modelAsset, streamingAssetsDir);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+#endif
+        }
+
     }
 
 }
