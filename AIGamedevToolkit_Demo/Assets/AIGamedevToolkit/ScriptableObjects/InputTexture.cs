@@ -5,27 +5,42 @@ using UnityEngine.Rendering;
 using UnityEngine.Video;
 
 
-[CreateAssetMenu]
-[System.Serializable]
-public class InputTexture : ScriptableObject
+namespace AIGamedevToolkit
 {
-    public RenderTexture renderTexture;
-    public InferenceFeatureVision[] inferenceFeatures;
-
-    public void SetTextureDims(RenderTexture rTex)
+    [CreateAssetMenu]
+    [System.Serializable]
+    public class InputTexture : ScriptableObject
     {
-        this.renderTexture = rTex;
-    }
+        public RenderTexture renderTexture;
+        public InferenceFeatureVision[] inferenceFeatures;
 
-
-    public void SetTexture(RenderTexture rTex)
-    {
-        this.renderTexture = rTex;
-
-
-        foreach (InferenceFeatureVision inferenceFeature in inferenceFeatures)
+        private void OnEnable()
         {
-            inferenceFeature.Inference(rTex);
+            renderTexture = RenderTexture.GetTemporary(1920, 1080, 24, RenderTextureFormat.ARGB32);
+        }
+
+        public void SetTextureDims(RenderTexture rTex)
+        {
+            this.renderTexture = rTex;
+        }
+
+
+        public void SetTexture(RenderTexture rTex)
+        {
+            this.renderTexture = rTex;
+
+
+            foreach (InferenceFeatureVision inferenceFeature in inferenceFeatures)
+            {
+                inferenceFeature.Inference(rTex);
+            }
+        }
+
+        private void OnDisable()
+        {
+            RenderTexture.ReleaseTemporary(renderTexture);
         }
     }
 }
+
+
