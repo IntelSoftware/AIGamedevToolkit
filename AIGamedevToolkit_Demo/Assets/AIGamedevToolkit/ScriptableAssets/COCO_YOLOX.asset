@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7de13918ebd764645b0cfd0ff24a8d88, type: 2}
   - {fileID: 11400000, guid: 80798bca0f8f1534dbdc9eba627c0324, type: 2}
   computeShader: {fileID: 7200000, guid: 3a534990e7346f147a9cca3aef65d000, type: 3}
-  Devices: GPU.1
+  Devices: GPU
   Models: YOLOXLarge
   nmsThreshold: 0.45
   minConfidence: 0.419
