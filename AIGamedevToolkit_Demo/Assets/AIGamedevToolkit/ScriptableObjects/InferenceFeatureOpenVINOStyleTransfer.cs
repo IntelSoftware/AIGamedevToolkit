@@ -73,10 +73,12 @@ namespace AIGamedevToolkit
 
         public override void InitializeDropdowns()
         {
+            Devices = "CPU";
             deviceList = new List<string>();
             modelList = new List<string>();
 
             deviceList = new List<string>(styleTransferOpenVINO.GetAvailableDevices());
+            Devices = deviceList[0];
             foreach (ModelOpenVINO model in modelAssets) modelList.Add(model.name);
         }
 
