@@ -7,6 +7,10 @@ using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using System.IO;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 namespace AIGamedevToolkit
 {
@@ -56,6 +60,12 @@ namespace AIGamedevToolkit
         public void Awake()
         {
         #if UNITY_EDITOR
+            
+            if (AssetDatabase.IsValidFolder("Assets/StreamingAssets") == false)
+            {
+                AssetDatabase.CreateFolder("Assets", "StreamingAssets");
+            }
+
             File.WriteAllText("Assets/StreamingAssets/plugins.xml", pluginsXmlFileContent);
         #else
 
