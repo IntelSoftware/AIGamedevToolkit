@@ -385,7 +385,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069204092}
   m_Enabled: 1
-  m_VideoClip: {fileID: 0}
+  m_VideoClip: {fileID: 32900000, guid: 9fb68ca5f718bcd49a761f2467d1167e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -499,8 +499,9 @@ MonoBehaviour:
   useAsync: 0
   inferenceFeatureList:
   - {fileID: 11400000, guid: a17e7dd1a62bb0f4da430e69bef76925, type: 2}
-  - {fileID: 11400000, guid: 3dffc60355a624a419356c564bb26420, type: 2}
   - {fileID: 11400000, guid: 4faf88e8f6f66bf43860e15ff100dbf8, type: 2}
+  - {fileID: 11400000, guid: 3dffc60355a624a419356c564bb26420, type: 2}
+  showInferenceFeatureSettings: 1
 --- !u!1 &1223598099
 GameObject:
   m_ObjectHideFlags: 0
