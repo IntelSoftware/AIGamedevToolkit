@@ -486,8 +486,7 @@ namespace AIGamedevToolkit
             }
 
             EditorUtility.SetDirty(this);
-        }
-
 #endif
+        }
     }
 }
