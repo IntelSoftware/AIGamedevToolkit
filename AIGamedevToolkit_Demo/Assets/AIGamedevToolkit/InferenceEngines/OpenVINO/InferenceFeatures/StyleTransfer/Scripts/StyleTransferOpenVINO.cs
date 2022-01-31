@@ -5,9 +5,11 @@ using System.Runtime.InteropServices;
 using System.IO;
 
 
-
 namespace AIGamedevToolkit
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class StyleTransferOpenVINO
     {
         // Name of the DLL file
