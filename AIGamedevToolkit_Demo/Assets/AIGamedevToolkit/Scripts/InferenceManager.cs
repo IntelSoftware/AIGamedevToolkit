@@ -17,14 +17,50 @@ namespace AIGamedevToolkit
         [HideInInspector]
         public bool showInferenceFeatureSettings = false;
 
-        // Keeps track of whether to execute the OpenVINO model
-        private bool performInference = true;
-
         // 
         private bool intelHardware;
 
+        // 
+//        string pluginsXmlFileContent = @"<ie>
+//    <plugins>
+//        <plugin name=""AUTO"" location=""AutoPlugin.dll"">
+//        </plugin>
+//        <plugin name=""GNA"" location=""GNAPlugin.dll"">
+//        </plugin>
+//        <plugin name=""HETERO"" location=""HeteroPlugin.dll"">
+//        </plugin>
+//        <plugin name=""CPU"" location=""MKLDNNPlugin.dll"">
+//        </plugin>
+//        <plugin name=""MULTI"" location=""MultiDevicePlugin.dll"">
+//        </plugin>
+//        <plugin name=""GPU"" location=""clDNNPlugin.dll"">
+//        </plugin>
+//        <plugin name=""MYRIAD"" location=""myriadPlugin.dll"">
+//        </plugin>
+//        <plugin name=""HDDL"" location=""HDDLPlugin.dll"">
+//        </plugin>
+//        <plugin name=""VPUX"" location=""VPUXPlugin.dll"">
+//        </plugin>
+//    </plugins>
+//</ie>";
 
-        string pluginsXmlFileContent = @"<ie>
+
+
+        private bool IntelHardwarePresent()
+        {
+            // Check if either the CPU of GPU is made by Intel
+            string processorType = SystemInfo.processorType.ToString();
+            string graphicsDeviceName = SystemInfo.graphicsDeviceName.ToString();
+            return processorType.Contains("Intel") || graphicsDeviceName.Contains("Intel");
+        }
+
+
+        public void Awake()
+        {
+#if UNITY_EDITOR
+
+#else
+            string pluginsXmlFileContent = @"<ie>
     <plugins>
         <plugin name=""AUTO"" location=""AutoPlugin.dll"">
         </plugin>
@@ -46,23 +82,7 @@ namespace AIGamedevToolkit
         </plugin>
     </plugins>
 </ie>";
-
-
-
-        private bool IntelHardwarePresent()
-        {
-            // Check if either the CPU of GPU is made by Intel
-            string processorType = SystemInfo.processorType.ToString();
-            string graphicsDeviceName = SystemInfo.graphicsDeviceName.ToString();
-            return processorType.Contains("Intel") || graphicsDeviceName.Contains("Intel");
-        }
-
-
-        public void Awake()
-        {
-        #if UNITY_EDITOR
-            
-        #else
+                
 
             Debug.Log("Checking for plugins.xml file");
 
@@ -79,7 +99,7 @@ namespace AIGamedevToolkit
                 File.WriteAllText(targetPath, pluginsXmlFileContent);
             }
 
-        #endif
+#endif
 
 
             intelHardware = IntelHardwarePresent();
