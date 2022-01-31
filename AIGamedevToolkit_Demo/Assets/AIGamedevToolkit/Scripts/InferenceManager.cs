@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,7 +21,7 @@ namespace AIGamedevToolkit
         [Tooltip("Turn AsyncGPUReadback on and off")]
         public bool useAsync = false;
 
-        public InferenceFeature[] inferenceFeatureList;
+        public List<InferenceFeature> inferenceFeatureList;
 
         [HideInInspector]
         public bool showInferenceFeatureSettings = false;
