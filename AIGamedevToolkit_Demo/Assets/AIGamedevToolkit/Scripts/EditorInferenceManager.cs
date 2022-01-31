@@ -33,6 +33,7 @@ namespace AIGamedevToolkit
                     EditorGUILayout.LabelField(inferenceFeature.name, EditorStyles.largeLabel);
                     inferenceFeature.DrawUI();
                     EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                     EditorGUILayout.Space();
                 }
             }
