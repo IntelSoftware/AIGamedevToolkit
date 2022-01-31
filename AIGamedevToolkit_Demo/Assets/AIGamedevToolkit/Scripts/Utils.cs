@@ -88,16 +88,16 @@ namespace AIGamedevToolkit
             switch (currentRenderPipeline)
             {
                 case RenderPipeline.HighDefinition:
-                    wasChanged = RemoveDefine(ref currBuildSettings, UniversalPipelineDefine);
-                    wasChanged = AddDefine(ref currBuildSettings, HDPipelineDefine);
+                    RemoveDefine(ref currBuildSettings, UniversalPipelineDefine, ref wasChanged);
+                    AddDefine(ref currBuildSettings, HDPipelineDefine, ref wasChanged);
                     break;
                 case RenderPipeline.Universal:
-                    wasChanged = RemoveDefine(ref currBuildSettings, HDPipelineDefine);
-                    wasChanged = AddDefine(ref currBuildSettings, UniversalPipelineDefine);
+                    RemoveDefine(ref currBuildSettings, HDPipelineDefine, ref wasChanged);
+                    AddDefine(ref currBuildSettings, UniversalPipelineDefine, ref wasChanged);
                     break;
                 default:
-                    wasChanged = RemoveDefine(ref currBuildSettings, UniversalPipelineDefine);
-                    wasChanged = RemoveDefine(ref currBuildSettings, HDPipelineDefine);
+                    RemoveDefine(ref currBuildSettings, UniversalPipelineDefine, ref wasChanged);
+                    RemoveDefine(ref currBuildSettings, HDPipelineDefine, ref wasChanged);
                     break;
             }
             // Only apply an update if we had changes
@@ -113,8 +113,9 @@ namespace AIGamedevToolkit
         /// </summary>
         /// <param name="currBuildSettings"></param>
         /// <param name="define"></param>
+        /// <param name="wasUpdated"></param>
         /// <returns>True, if the define was newly added, false if it already existed.</returns>
-        private static bool AddDefine(ref string currBuildSettings, string define)
+        public static bool AddDefine(ref string currBuildSettings, string define, ref bool wasUpdated)
         {
             if (!currBuildSettings.Contains(define))
             {
@@ -126,6 +127,7 @@ namespace AIGamedevToolkit
                 {
                     currBuildSettings += ";" + define;
                 }
+                wasUpdated = true;
                 return true;
             }
             return false;
@@ -136,13 +138,15 @@ namespace AIGamedevToolkit
         /// </summary>
         /// <param name="currBuildSettings"></param>
         /// <param name="define"></param>
+        /// <param name="wasUpdated"></param>
         /// <returns>True, if the define was removed, false if there was nothing found to remove</returns>
-        private static bool RemoveDefine(ref string currBuildSettings, string define)
+        public static bool RemoveDefine(ref string currBuildSettings, string define, ref bool wasUpdated)
         {
             if (currBuildSettings.Contains(define))
             {
                 currBuildSettings = currBuildSettings.Replace(define + ";", "");
                 currBuildSettings = currBuildSettings.Replace(define, "");
+                wasUpdated = true;
                 return true;
             }
             return false;
