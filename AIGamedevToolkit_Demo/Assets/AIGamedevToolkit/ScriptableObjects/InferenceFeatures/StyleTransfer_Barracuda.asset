@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f65954b74a3d3d44690aeef0c6c7616f, type: 3}
   m_Name: StyleTransfer_Barracuda
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   optionsVisible: 0
   inputTexture: {fileID: 11400000, guid: 747bb74e2613690429cb71f4d0d0724c, type: 2}
   targetDims: {x: 960, y: 540}
