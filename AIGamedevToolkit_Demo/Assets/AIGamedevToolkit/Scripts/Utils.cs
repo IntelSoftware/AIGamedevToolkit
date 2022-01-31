@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 #if GAIA_2_PRESENT
 using Gaia;
@@ -46,11 +47,13 @@ namespace AIGamedevToolkit
 
             }
             // Refresh the reference list of available inference features
-            infMan.inferenceFeatureList = new InferenceFeature[InferenceFeature.allFeatures.Count];
-            for (int i = 0; i < InferenceFeature.allFeatures.Count; i++)
+            infMan.inferenceFeatureList = new List<InferenceFeature>();
+            foreach (InferenceFeature inferenceFeature in InferenceFeature.allFeatures)
             {
-                InferenceFeature feature = InferenceFeature.allFeatures[i];
-                infMan.inferenceFeatureList[i] = feature;
+                if (inferenceFeature.active)
+                {
+                    infMan.inferenceFeatureList.Add(inferenceFeature);
+                }
             }
 
             return infMan;
