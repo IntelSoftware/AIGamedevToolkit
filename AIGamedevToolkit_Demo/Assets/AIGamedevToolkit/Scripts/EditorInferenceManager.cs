@@ -20,7 +20,7 @@ namespace AIGamedevToolkit
         {
             InferenceManager inferenceManager = (InferenceManager)target;
 
-            InferenceFeature[] inferenceFeatures = inferenceManager.inferenceFeatureList;
+            List<InferenceFeature> inferenceFeatures = inferenceManager.inferenceFeatureList;
 
             base.OnInspectorGUI();
 
