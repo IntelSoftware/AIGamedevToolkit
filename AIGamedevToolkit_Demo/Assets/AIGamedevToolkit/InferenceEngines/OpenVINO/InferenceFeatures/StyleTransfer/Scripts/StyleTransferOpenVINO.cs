@@ -125,6 +125,7 @@ namespace AIGamedevToolkit
         }
 
 
+        #if AIGAMEDEV_UNSAFE
         /// <summary>
         /// Pin memory for the input data and send it to OpenVINO for inference
         /// </summary>
@@ -138,7 +139,7 @@ namespace AIGamedevToolkit
                 PerformInference((IntPtr)p);
             }
         }
-
+        #endif
 
 
         public void CleanUp()
