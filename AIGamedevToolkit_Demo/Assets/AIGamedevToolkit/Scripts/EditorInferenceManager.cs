@@ -37,8 +37,6 @@ namespace AIGamedevToolkit
                 }
             }
             inferenceManager.showInferenceFeatureSettings = unfold;
-
-            //EditorUtility.SetDirty(inferenceManager);
         }
 
     }
