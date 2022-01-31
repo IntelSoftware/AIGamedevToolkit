@@ -38,7 +38,7 @@ namespace AIGamedevToolkit
         public static List<string> modelList = new List<string>();
 
         /// <summary>
-        /// Implements the code for performing inference with Barracuda
+        /// Implements the functionality for performing inference with Barracuda
         /// </summary>
         public StyleTransferBarracuda styleTransferBarracuda;
 
@@ -57,7 +57,7 @@ namespace AIGamedevToolkit
         #endif
 
         /// <summary>
-        /// Instantiate any objects for InferenceFeatureBarracudaStyleTransfer
+        /// Instantiate any objects for InferenceFeatureBarracudaStyleTransfer asset
         /// </summary>
         public override void Instantiate()
         {
@@ -67,7 +67,7 @@ namespace AIGamedevToolkit
 
 
         /// <summary>
-        /// Perform any initialization steps for using the InferenceFeatureBarracudaStyleTransfer asset
+        /// Perform any initialization steps required for using the InferenceFeatureBarracudaStyleTransfer asset
         /// </summary>
         public override void Initialize()
         {
@@ -168,9 +168,9 @@ namespace AIGamedevToolkit
             #if UNITY_EDITOR
             // Only display property fields when the Barracuda package is installed
             #if AIGAMEDEV_BARRACUDA
-            SerializedObject serializedObject = new SerializedObject(this);
 
             // Get references to properties
+            SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty m_ActiveProp = serializedObject.FindProperty("active");
             SerializedProperty m_InputTextureProp = serializedObject.FindProperty("inputTexture");
             SerializedProperty m_ModelAssetsProp = serializedObject.FindProperty("modelAssets");
@@ -219,7 +219,9 @@ namespace AIGamedevToolkit
             #endif
         }
 
-
+        /// <summary>
+        /// Perform any required cleanup steps
+        /// </summary>
         public override void CleanUp()
         {
             try
