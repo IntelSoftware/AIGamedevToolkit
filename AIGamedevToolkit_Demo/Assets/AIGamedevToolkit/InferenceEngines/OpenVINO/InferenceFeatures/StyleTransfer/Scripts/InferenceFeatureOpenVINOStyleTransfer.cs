@@ -194,6 +194,8 @@ namespace AIGamedevToolkit
             Graphics.Blit(tempTex, renderTexture);
 
             RenderTexture.ReleaseTemporary(tempTex);
+#else
+            Debug.Log("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.");
 #endif
         }
 
@@ -201,6 +203,7 @@ namespace AIGamedevToolkit
         public override void DrawUI()
         {
 #if UNITY_EDITOR
+#if AIGAMEDEV_UNSAFE
             SerializedObject serializedObject = new SerializedObject(this);
 
             SerializedProperty m_ActiveProp = serializedObject.FindProperty("active");
@@ -280,7 +283,8 @@ namespace AIGamedevToolkit
 
             EditorUtility.SetDirty(this);
 #else
-            Debug.Log("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.");
+            EditorGUILayout.HelpBox("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.", MessageType.Warning);
+#endif
 #endif
         }
 
