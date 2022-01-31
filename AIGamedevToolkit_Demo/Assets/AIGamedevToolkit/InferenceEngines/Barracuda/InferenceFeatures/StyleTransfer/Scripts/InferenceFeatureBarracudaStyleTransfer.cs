@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Barracuda;
 using System;
 
+#if AIGAMEDEV_BARRACUDA
+using Unity.Barracuda;
+#endif
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -18,8 +20,7 @@ namespace AIGamedevToolkit
 
         public ComputeShader computeShader;
 
-        [Tooltip("The backend used when performing inference")]
-        public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
+        
         // 
         public static List<string> deviceList = new List<string>();
         [ListToPopup(typeof(InferenceFeatureBarracudaStyleTransfer), "modelList")]
@@ -27,13 +28,15 @@ namespace AIGamedevToolkit
         // 
         public static List<string> modelList = new List<string>();
 
-        [Tooltip("The model asset file that will be used when performing inference")]
-        public NNModel[] modelAssets;
-
-
 
         public StyleTransferBarracuda styleTransferBarracuda;
 
+#if AIGAMEDEV_BARRACUDA
+        [Tooltip("The backend used when performing inference")]
+        public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
+        [Tooltip("The model asset file that will be used when performing inference")]
+        public NNModel[] modelAssets;
+#endif
 
         public override void Instantiate()
         {
@@ -43,6 +46,7 @@ namespace AIGamedevToolkit
 
         public override void Initialize()
         {
+#if AIGAMEDEV_BARRACUDA
             // Prevent the input dimensions from going too low for the model
             if (targetDims.x < 64 || targetDims.y < 64) return;
             InitializeTextures();
@@ -50,12 +54,15 @@ namespace AIGamedevToolkit
             if (styleTransferBarracuda == null) return;
 
             styleTransferBarracuda.InitializeEngine(modelAssets[modelList.IndexOf(Models)], workerType);
+#endif
         }
 
         public override void InitializeDropdowns()
         {
+#if AIGAMEDEV_BARRACUDA
             // Get the names of the model assets
             foreach (NNModel modelAsset in modelAssets) modelList.Add(modelAsset.name);
+#endif
         }
 
 
@@ -100,6 +107,7 @@ namespace AIGamedevToolkit
         {
             if (!this.active || styleTransferBarracuda == null) return;
 
+#if AIGAMEDEV_BARRACUDA
             RenderTexture tempTex = RenderTexture.GetTemporary(imageDims.x, imageDims.y, 24, renderTexture.format);
 
             Graphics.Blit(renderTexture, tempTex);
@@ -108,12 +116,14 @@ namespace AIGamedevToolkit
             ProcessImage(tempTex, "ProcessOutput");
             Graphics.Blit(tempTex, renderTexture);
             RenderTexture.ReleaseTemporary(tempTex);
+#endif
         }
 
 
         public override void DrawUI()
         {
 #if UNITY_EDITOR
+#if AIGAMEDEV_BARRACUDA
             SerializedObject serializedObject = new SerializedObject(this);
 
             SerializedProperty m_ActiveProp = serializedObject.FindProperty("active");
@@ -163,6 +173,9 @@ namespace AIGamedevToolkit
             }
 
             EditorUtility.SetDirty(this);
+#else
+            EditorGUILayout.HelpBox("Barracuda package not installed", MessageType.Warning);
+#endif
 #endif
         }
 
@@ -171,7 +184,9 @@ namespace AIGamedevToolkit
         {
             try
             {
+#if AIGAMEDEV_BARRACUDA
                 styleTransferBarracuda.CleanUp();
+#endif
             }
             catch
             {
