@@ -24,7 +24,7 @@ namespace AIGamedevToolkit
 
             foreach (InferenceFeatureVision inferenceFeature in inferenceFeatures)
             {
-                inferenceFeature.Inference(rTex);
+                if (inferenceFeature.active) inferenceFeature.Inference(rTex);
             }
         }
 
