@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab0ff316ff14264da535afc258bfd0e, type: 3}
   m_Name: StyleTransfer_OpenVINO
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   optionsVisible: 0
   inputTexture: {fileID: 11400000, guid: 747bb74e2613690429cb71f4d0d0724c, type: 2}
   targetDims: {x: 960, y: 540}
