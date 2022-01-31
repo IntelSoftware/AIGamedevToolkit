@@ -176,7 +176,7 @@ namespace AIGamedevToolkit
             this.deviceIndex = deviceList.IndexOf(deviceName);
         }
 
-
+        #if AIGAMEDEV_UNSAFE
         /// <summary>
         /// Pin memory for the input data and send it to OpenVINO for inference
         /// </summary>
@@ -205,6 +205,7 @@ namespace AIGamedevToolkit
 
             return objectInfoArray;
         }
+        #endif
 
         public void CleanUp()
         {
