@@ -26,19 +26,32 @@ namespace AIGamedevToolkit
         /// </summary>
         public ComputeShader computeShader;
 
-        // Displays a popup list of available onnx models
+        /// <summary>
+        /// Displays a popup list of available onnx models
+        /// </summary>
         [ListToPopup(typeof(InferenceFeatureBarracudaStyleTransfer), "modelList")]
         public string Models = "";
-        // Stores a list of available onnx models
+        
+        /// <summary>
+        /// Stores a list of available onnx models
+        /// </summary>
         public static List<string> modelList = new List<string>();
 
-        // Implements the code for performing inference with Barracuda
+        /// <summary>
+        /// Implements the code for performing inference with Barracuda
+        /// </summary>
         public StyleTransferBarracuda styleTransferBarracuda;
 
         // Only declare variables requiring the Barracuda package if it is installed
         #if AIGAMEDEV_BARRACUDA
-        [Tooltip("The backend used when performing inference")]
+        /// <summary>
+        /// The compute backend used when performing inference
+        /// </summary>
+        [Tooltip("The compute backend used when performing inference")]
         public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
+        /// <summary>
+        /// The model asset file that will be used when performing inference
+        /// </summary>
         [Tooltip("The model asset file that will be used when performing inference")]
         public NNModel[] modelAssets;
         #endif
