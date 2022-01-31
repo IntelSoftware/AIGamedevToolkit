@@ -10,7 +10,7 @@ using Unity.Barracuda;
 namespace AIGamedevToolkit
 {
     /// <summary>
-    /// Implements the code required perform style transfer inference with Barracuda library
+    /// Implements the functionality required to perform style transfer inference with Barracuda library
     /// </summary>
     public class StyleTransferBarracuda
     {
