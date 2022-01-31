@@ -184,7 +184,8 @@ namespace AIGamedevToolkit
 
         public override void Inference(RenderTexture renderTexture)
         {
-            if (!this.active) return;
+#if AIGAMEDEV_UNSAFE
+            if (!this.active || yoloxOpenVINO == null) return;
 
             RenderTexture tempTex = RenderTexture.GetTemporary(imageDims.x, imageDims.y, 24, renderTexture.format);
 
@@ -208,6 +209,9 @@ namespace AIGamedevToolkit
             UpdateObjectInfo();
 
             RenderTexture.ReleaseTemporary(tempTex);
+#else
+            Debug.Log("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.");
+#endif
         }
 
 
