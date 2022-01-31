@@ -18,7 +18,6 @@ namespace AIGamedevToolkit
 
         public ComputeShader computeShader;
 
-        //[Header("Style Transfer - Barracuda")]
         [Tooltip("The backend used when performing inference")]
         public WorkerFactory.Type workerType = WorkerFactory.Type.Auto;
         // 
@@ -99,7 +98,7 @@ namespace AIGamedevToolkit
 
         public override void Inference(RenderTexture renderTexture)
         {
-            if (!this.active) return;
+            if (!this.active || styleTransferBarracuda == null) return;
 
             RenderTexture tempTex = RenderTexture.GetTemporary(imageDims.x, imageDims.y, 24, renderTexture.format);
 
