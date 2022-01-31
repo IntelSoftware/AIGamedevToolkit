@@ -11,16 +11,7 @@ namespace AIGamedevToolkit
 {
     public class InferenceManager : MonoBehaviour
     {
-        [Header("OpenVINO")]
-        [Tooltip("Performs the preprocessing and postprocessing steps")]
-        public ComputeShader imageProcessingShader;
-
-        [Header("Inference")]
-        [Tooltip("Turn stylization on and off")]
-        public bool inferenceToggle = true;
-        [Tooltip("Turn AsyncGPUReadback on and off")]
-        public bool useAsync = false;
-
+        [Tooltip("")]
         public List<InferenceFeature> inferenceFeatureList;
 
         [HideInInspector]
@@ -29,8 +20,8 @@ namespace AIGamedevToolkit
         // Keeps track of whether to execute the OpenVINO model
         private bool performInference = true;
 
+        // 
         private bool intelHardware;
-
 
 
         string pluginsXmlFileContent = @"<ie>
@@ -71,17 +62,11 @@ namespace AIGamedevToolkit
         {
         #if UNITY_EDITOR
             
-            if (AssetDatabase.IsValidFolder("Assets/StreamingAssets") == false)
-            {
-                AssetDatabase.CreateFolder("Assets", "StreamingAssets");
-            }
-
-            File.WriteAllText("Assets/StreamingAssets/plugins.xml", pluginsXmlFileContent);
         #else
 
-        Debug.Log("Checking for plugins.xml file");
+            Debug.Log("Checking for plugins.xml file");
 
-            string sourcePath = $"{Application.streamingAssetsPath}/plugins.xml";
+            //string sourcePath = $"{Application.streamingAssetsPath}/plugins.xml";
             string targetPath = $"{Application.dataPath}/Plugins/x86_64/plugins.xml";
 
             if (File.Exists(targetPath))
@@ -90,8 +75,8 @@ namespace AIGamedevToolkit
             }
             else
             {
-                Debug.Log("Moving plugins.xml file from StreamingAssets to Plugins folder.");
-                File.Copy(sourcePath, targetPath);
+                Debug.Log("Creating plugins.xml file in Plugins folder.");
+                File.WriteAllText(targetPath, pluginsXmlFileContent);
             }
 
         #endif
@@ -116,18 +101,6 @@ namespace AIGamedevToolkit
 
             // Perform the requred 
             InitializeFeatures();
-        }
-
-
-        /// <summary>
-        /// Initialize the options for the dropdown menus
-        /// </summary>
-        private void InitializeDropdowns()
-        {
-            foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
-            {
-                inferenceFeature.InitializeDropdowns();
-            }
         }
 
 
@@ -178,31 +151,7 @@ namespace AIGamedevToolkit
             
         }
 
-
-        /// <summary>
-        /// Called when the input dimensions are updated in the GUI
-        /// </summary>
-        public void UpdateInputDims()
-        {
-            InitializeFeatures();
-        }
-
-
-        /// <summary>
-        /// Called when the value for the Inference toggle is updated
-        /// </summary>
-        public void UpdateInferenceValue()
-        {
-            performInference = inferenceToggle;
-
-            if (performInference)
-            {
-
-                InitializeFeatures();
-            }
-        }
-
-
+                
         private void OnDisable()
         {
             foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
