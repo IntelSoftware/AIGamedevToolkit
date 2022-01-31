@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if AIGAMEDEV_BARRACUDA
 using Unity.Barracuda;
+#endif
 
 
 namespace AIGamedevToolkit
 {
     public class StyleTransferBarracuda
     {
+#if AIGAMEDEV_BARRACUDA
         // The interface used to execute the neural network
         private IWorker engine;
 
@@ -57,5 +61,6 @@ namespace AIGamedevToolkit
         {
             engine.Dispose();
         }
+#endif
     }
 }
