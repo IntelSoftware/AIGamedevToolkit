@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,50 +11,85 @@ namespace AIGamedevToolkit
     [System.Serializable]
     public class InferenceFeatureOpenVINOStyleTransfer : InferenceFeatureVision, IOpenVINOInferenceFeature
     {
-
+        /// <summary>
+        /// Keeps track of the attached model assets
+        /// </summary>
         public ModelOpenVINO[] modelAssets;
 
+        /// <summary>
+        /// The compute shader containing the required processing steps
+        /// </summary>
         public ComputeShader computeShader;
 
+        /// <summary>
+        /// Implements the functionality for performing style transfer inference with OpenVINO
+        /// </summary>
         public StyleTransferOpenVINO styleTransferOpenVINO;
 
+        /// <summary>
+        /// The compute device used when performing inference
+        /// </summary>
         [ListToPopup(typeof(InferenceFeatureOpenVINOStyleTransfer), "deviceList")]
         public string Devices = "";
-        // 
+        
+        /// <summary>
+        /// Stores the names of the available compute devices
+        /// </summary>
         public static List<string> deviceList = new List<string>();
+        
+        /// <summary>
+        /// The model asset used when performing inference
+        /// </summary>
         [ListToPopup(typeof(InferenceFeatureOpenVINOStyleTransfer), "modelList")]
         public string Models = "";
-        // 
+
+        /// <summary>
+        /// Stores the names of the available model assets
+        /// </summary>
         public static List<string> modelList = new List<string>();
 
-
-        public string currentDevice;
-        public string currentModel;
-
-        // Contains the input texture that will be sent to the OpenVINO inference engine
+        /// <summary>
+        /// Contains the input texture that will be sent to the OpenVINO inference engine
+        /// </summary>
         private Texture2D inputTex;
 
-        // Stores the raw pixel data for inputTex
+        /// <summary>
+        /// Stores the raw pixel data for inputTex
+        /// </summary>
         private byte[] inputData;
 
-
+        /// <summary>
+        /// Keeps track of whether to show the settings for the attached model assets
+        /// </summary>
         private bool showModelAssetSettings = false;
+        
+        /// <summary>
+        /// The label for the models assets settings section
+        /// </summary>
         private string modelAssetSettingsLabel = "Model Asset Settings";
 
-
+        /// <summary>
+        /// Called whenever a different model asset is selected
+        /// </summary>
         public void UpdateModel()
         {
             Debug.Log($"{this.name}: Model asset changed to {Models}");
             Initialize();
         }
 
+        /// <summary>
+        /// Called whenver a different compute device is selected
+        /// </summary>
         public void UpdateDevice()
         {
             Debug.Log($"{this.name}: Compute device changed to {Devices}");
-            styleTransferOpenVINO.SetDeviceIndex(deviceList.IndexOf(Devices));
+            styleTransferOpenVINO.DeviceIndex = deviceList.IndexOf(Devices);
             Initialize();
         }
 
+        /// <summary>
+        /// Called whenver different input dimensions are entered
+        /// </summary>
         public void UpdateInputDims()
         {
             // Prevent the input dimensions from going too low for the model
@@ -68,47 +101,65 @@ namespace AIGamedevToolkit
         }
 
 
+        /// <summary>
+        /// Instantiate any objects for InferenceFeatureOpenVINOStyleTransfer asset
+        /// </summary>
         public override void Instantiate()
         {
             styleTransferOpenVINO = new StyleTransferOpenVINO();
         }
 
-
-
+        /// <summary>
+        /// Initialize the dropdown menu for the InferenceFeatureOpenVINOStyleTransfer asset
+        /// </summary>
         public override void InitializeDropdowns()
         {
+            // Initialzie the selected compute device to CPU
             Devices = "CPU";
+            // Initialize list of available compute devices
             deviceList = new List<string>();
+            // Initialize list of available model assets
             modelList = new List<string>();
 
-            deviceList = new List<string>(styleTransferOpenVINO.GetAvailableDevices());
+            // Get a list of compute devices available for the OpenVINO plugin
+            deviceList = styleTransferOpenVINO.GetAvailableDevices();
+            // Set the selected compute device to the first device in the list
             Devices = deviceList[0];
+            // Add attached model assets to list of models
             foreach (ModelOpenVINO model in modelAssets) modelList.Add(model.name);
         }
 
-
+        /// <summary>
+        /// Get the path for the currently selected model asset
+        /// </summary>
+        /// <returns></returns>
         public string GetCurrentModelPath()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
+            // Get path for the model in the Assets folder when in the Editor
             return modelAssets[modelList.IndexOf(Models)].modelPath;
-
-#else
+            #else
+            // Get the path for the model in the StreamingAssets folder when in build
             string modelPath = modelAssets[modelList.IndexOf(Models)].modelPath;
             string fileName = modelPath.Substring(modelPath.LastIndexOf("/"));
             string streamingPath = Application.streamingAssetsPath + "/" + modelAssets[modelList.IndexOf(Models)].streamingAssetsPath + fileName;
             return streamingPath;
-#endif
+            #endif
         }
 
-
+        /// <summary>
+        /// Perform any initialization steps required for using the InferenceFeatureOpenVINOStyleTransfer asset
+        /// </summary>
         public override void Initialize()
         {
+            // Initialize the input textures
             InitializeTextures();
             // Update inputTex with the new dimensions
             inputTex = new Texture2D(imageDims.x, imageDims.y, TextureFormat.RGBA32, false);
-
             // Set up the neural network for the OpenVINO inference engine
-            styleTransferOpenVINO.SetInputDims(this.imageDims);
+            styleTransferOpenVINO.InputDims = this.imageDims;
+
+            // Initialize OpenVINO plugin using the current model and compute device
             if (Devices.Length > 0 && Models.Length > 0)
             {
                 styleTransferOpenVINO.InitializePlugin(GetCurrentModelPath(), deviceList.IndexOf(Devices));
@@ -159,23 +210,29 @@ namespace AIGamedevToolkit
             RenderTexture.ReleaseTemporary(result);
         }
 
+        /// <summary>
+        /// Perform inference using pixel data from the provided RenderTexture
+        /// </summary>
+        /// <param name="renderTexture"></param>
         public override void Inference(RenderTexture renderTexture)
         {
-#if AIGAMEDEV_UNSAFE
+            // Only perform inference when unsafe code is enabled
+            #if AIGAMEDEV_UNSAFE
             if (!this.active || styleTransferOpenVINO == null) return;
-
+            // Create a temporary RenderTexture with the desired input resolution
             RenderTexture tempTex = RenderTexture.GetTemporary(imageDims.x, imageDims.y, 24, renderTexture.format);
-
+            // Copy the input texture data to the temporary texture
             Graphics.Blit(renderTexture, tempTex);
-
-
             // Flip image before sending to DLL
             FlipImage(computeShader, tempTex, "FlipXAxis");
-
+            // Set active RenderTexture to temporary RenderTexture
             RenderTexture.active = tempTex;
+            // Copy texture data from the GPU to the CPU
             inputTex.ReadPixels(new Rect(0, 0, tempTex.width, tempTex.height), 0, 0);
+            // Apply changes to CPU texture
             inputTex.Apply();
 
+            // Get raw data from CPU texture
             inputData = inputTex.GetRawTextureData();
 
             // Send reference to inputData to DLL
@@ -186,26 +243,33 @@ namespace AIGamedevToolkit
             // Apply the changes to the texture
             inputTex.Apply();
 
+            // Copy output texture data back to the temporary RenderTexture
             Graphics.Blit(inputTex, tempTex);
 
             // Flip image before sending to DLL
             FlipImage(computeShader, tempTex, "FlipXAxis");
 
+            /// Copy temporary texture data to the input RenderTexture
             Graphics.Blit(tempTex, renderTexture);
-
+            // Release memory resources allocated for the temporary texture
             RenderTexture.ReleaseTemporary(tempTex);
-#else
+            #else
             Debug.Log("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.");
-#endif
+            #endif
         }
 
-
+        /// <summary>
+        /// Draw a custom editor GUI for the InferenceFeatureOpenVINOStyleTransfer asset
+        /// </summary>
         public override void DrawUI()
         {
-#if UNITY_EDITOR
-#if AIGAMEDEV_UNSAFE
-            SerializedObject serializedObject = new SerializedObject(this);
+            // Only execute editor code when in the Unity Editor
+            #if UNITY_EDITOR
+            // Only display property fields when unsafe code is enabled
+            #if AIGAMEDEV_UNSAFE
 
+            // Get references to properties
+            SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty m_ActiveProp = serializedObject.FindProperty("active");
             SerializedProperty m_InputTextureProp = serializedObject.FindProperty("inputTexture");
             SerializedProperty m_ModelAssetsProp = serializedObject.FindProperty("modelAssets");
@@ -214,14 +278,11 @@ namespace AIGamedevToolkit
             SerializedProperty m_DevicesProp = serializedObject.FindProperty("Devices");
             SerializedProperty m_TargetDimsProp = serializedObject.FindProperty("targetDims");
 
+            // Display property fields
             EditorGUILayout.PropertyField(m_ActiveProp, new GUIContent("Active"));
             EditorGUILayout.PropertyField(m_InputTextureProp, new GUIContent("Input Texture"));
-
-
             EditorGUILayout.LabelField("Image Processing", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(m_ComputeShaderProp, new GUIContent("ComputeShader"));
-
-
             EditorGUILayout.LabelField("Model", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(m_ModelAssetsProp, new GUIContent("Model Assets"));
             showModelAssetSettings = EditorGUILayout.Foldout(showModelAssetSettings, modelAssetSettingsLabel);
@@ -238,10 +299,8 @@ namespace AIGamedevToolkit
             }
             // Apply changes to the serializedProperty
             serializedObject.ApplyModifiedProperties();
-
-
-
             EditorGUILayout.LabelField("Style Transfer", EditorStyles.boldLabel);
+            // Check for changes to the Models property field
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(m_ModelsProp, new GUIContent("Models"));
             // Apply changes to the serializedProperty
@@ -250,7 +309,7 @@ namespace AIGamedevToolkit
             {
                 UpdateModel();
             }
-
+            // Check for changes to the Devices property field
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(m_DevicesProp, new GUIContent("Devices"));
             // Apply changes to the serializedProperty
@@ -259,7 +318,7 @@ namespace AIGamedevToolkit
             {
                 UpdateDevice();
             }
-
+            // Check for changes to the input dimensions
             EditorGUI.BeginChangeCheck();
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.PropertyField(m_TargetDimsProp, new GUIContent("Input Dimensions"));
@@ -269,8 +328,7 @@ namespace AIGamedevToolkit
             {
                 UpdateInputDims();
             }
-
-
+            // Provide option to copy all attached model assets to the StreamingAssets folder
             EditorGUILayout.LabelField("Build Preparation", EditorStyles.boldLabel);
             if (GUILayout.Button("Copy Models to StreamingAssets"))
             {
@@ -281,14 +339,18 @@ namespace AIGamedevToolkit
                 }
             }
 
+            // Save changes to properties
             EditorUtility.SetDirty(this);
-#else
+            #else
+            // Inform user when unsafe code is not enabled
             EditorGUILayout.HelpBox("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.", MessageType.Warning);
-#endif
-#endif
+            #endif
+            #endif
         }
 
-
+        /// <summary>
+        /// Perform any required cleanup steps
+        /// </summary>
         public override void CleanUp()
         {
             try
