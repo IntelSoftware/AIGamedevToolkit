@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
 namespace AIGamedevToolkit
 {
 #if UNITY_EDITOR
@@ -14,11 +9,7 @@ namespace AIGamedevToolkit
         public override void OnInspectorGUI()
         {
             InferenceFeatureBarracudaStyleTransfer scriptableInferenceFeature = (InferenceFeatureBarracudaStyleTransfer)target;
-
             scriptableInferenceFeature.DrawUI();
-
-
-
         }
 
     }
