@@ -383,7 +383,7 @@ namespace AIGamedevToolkit
         public override void DrawUI()
         {
 #if UNITY_EDITOR
-
+#if AIGAMEDEV_UNSAFE
 
             SerializedObject serializedObject = new SerializedObject(this);
 
@@ -490,6 +490,9 @@ namespace AIGamedevToolkit
             }
 
             EditorUtility.SetDirty(this);
+#else
+            EditorGUILayout.HelpBox("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.", MessageType.Warning);
+#endif
 #endif
         }
     }
