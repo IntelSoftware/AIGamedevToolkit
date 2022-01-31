@@ -67,7 +67,7 @@ namespace AIGamedevToolkit
             {
                 cth = camera.gameObject.AddComponent<CameraTextureHelper>();
             }
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             // Load the default "MainCamera_Texture" if no other textures are set by the user
             if (cth.inputTextures == null || cth.inputTextures.Length == 0)
             {
@@ -75,7 +75,7 @@ namespace AIGamedevToolkit
                 InputRenderTexture inputTexture = (InputRenderTexture)AssetDatabase.LoadAssetAtPath(inputTexturePath, typeof(InputRenderTexture));
                 cth.inputTextures = new InputRenderTexture[1] { inputTexture };
             }
-#endif
+            #endif
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace AIGamedevToolkit
         /// <param name="currentRenderPipeline"></param>
         public static void SetScriptingDefines(RenderPipeline currentRenderPipeline)
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
 
             bool wasChanged = false;
             string currBuildSettings = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
@@ -108,7 +108,7 @@ namespace AIGamedevToolkit
             {
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, currBuildSettings);
             }
-#endif
+            #endif
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace AIGamedevToolkit
         public static Camera GetCamera(bool checkTag = false)
         {
 
-#if GAIA_2_PRESENT
+            #if GAIA_2_PRESENT
             //if Gaia is present in project, look for cameras Gaia set up itself first, those would be the relevant ones before all others
             foreach (Camera gaiaCam in Resources.FindObjectsOfTypeAll(typeof(Camera)))
             {
@@ -213,7 +213,7 @@ namespace AIGamedevToolkit
                     return gaiaCam;
                 }
             }
-#endif
+            #endif
 
             Camera camera = Camera.main;
             if (camera != null)
@@ -262,13 +262,13 @@ namespace AIGamedevToolkit
         /// <returns>Returns the prefab or null</returns>
         public static GameObject GetAssetPrefab(string name)
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             string path = GetAssetPath(name, "prefab");
             if (!string.IsNullOrEmpty(path))
             {
                 return AssetDatabase.LoadAssetAtPath<GameObject>(path);
             }
-#endif
+            #endif
             return null;
         }
 
@@ -281,7 +281,7 @@ namespace AIGamedevToolkit
         /// <returns></returns>
         public static string GetAssetPath(string name, string extension)
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             string[] assets = AssetDatabase.FindAssets(name, null);
             string[] file;
             for (int idx = 0; idx < assets.Length; idx++)
@@ -303,7 +303,7 @@ namespace AIGamedevToolkit
                 }
                 return path;
             }
-#endif
+            #endif
             return "";
         }
 
@@ -324,8 +324,6 @@ namespace AIGamedevToolkit
             {
                 gameObject.AddComponent<StandaloneInputModule>();
             }
-
         }
-
     }
 }
