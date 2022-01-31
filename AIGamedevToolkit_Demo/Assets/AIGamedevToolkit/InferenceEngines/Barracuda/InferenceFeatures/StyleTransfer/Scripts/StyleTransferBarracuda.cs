@@ -14,10 +14,12 @@ namespace AIGamedevToolkit
     /// </summary>
     public class StyleTransferBarracuda
     {
-        // Only compile Barracuda code if the Barracuda package is installed 
+        // Only compile Barracuda code if the Barracuda package is installed
         #if AIGAMEDEV_BARRACUDA
 
-        // The interface used to execute the neural network
+        /// <summary>
+        /// The interface used to execute the neural network
+        /// </summary>
         private IWorker engine;
 
 
