@@ -8,7 +8,6 @@ namespace AIGamedevToolkit
     [System.Serializable]
     public class InferenceFeature : ScriptableObject
     {
-
         /// <summary>
         /// static list to cache all the existing features from the project into - other classes can read the available inference features from here.
         /// The list is populated from the editor context in InferenceFeatureListEditor, since it requires editor context to find / read all the inference
