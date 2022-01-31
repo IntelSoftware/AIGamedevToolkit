@@ -20,7 +20,6 @@ namespace AIGamedevToolkit
             // Draw the editor user interface for the inference feature
             scriptableInferenceFeature.DrawUI();
         }
-
     }
     #endif
 }
