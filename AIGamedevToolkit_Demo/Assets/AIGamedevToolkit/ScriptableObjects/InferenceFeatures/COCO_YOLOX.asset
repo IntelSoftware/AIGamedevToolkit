@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: COCO_YOLOX
   m_EditorClassIdentifier: 
   active: 1
-  optionsVisible: 1
+  optionsVisible: 0
   inputTexture: {fileID: 11400000, guid: 747bb74e2613690429cb71f4d0d0724c, type: 2}
   targetDims: {x: 640, y: 360}
   imageDims: {x: 640, y: 360}
