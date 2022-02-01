@@ -6,10 +6,8 @@ namespace AIGamedevToolkit
     public class AddInferenceWindow : EditorWindow
     {
         private Vector2 scrollPosition;
-        /// <summary>
-        /// Show Discord
-        /// </summary>
-        [MenuItem("Window/AI Gamedev Toolkit/Add Inference...", false)]
+        
+        [MenuItem("Window/AI Gamedev Toolkit/Add Inference Features", false)]
         public static void ShowWindow()
         {
             var inferenceWindow = EditorWindow.GetWindow<AddInferenceWindow>(false, "AI Gamedev Toolkit");
