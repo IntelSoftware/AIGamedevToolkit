@@ -19,19 +19,13 @@ namespace AIGamedevToolkit
         // Contains a reference to the xml file for the OpenVINO model
         public TextAsset modelFile;
 
-        
-        public void UpdateModel()
-        {
-            Debug.Log($"{this.name}: Model path updated to {this.modelPath}");
-        }
-
-
         /// <summary>
-        /// 
+        /// Draw a custom editor for the ModelOpenVINO asset
         /// </summary>
         /// <param name="scriptableModel"></param>
         public void DrawUI(ModelOpenVINO scriptableModel)
         {
+            // Only execute editor code when in the Unity Editor
             #if UNITY_EDITOR
             TextAsset modelFileAsset = (TextAsset)EditorGUILayout.ObjectField("Model File", scriptableModel.modelFile, typeof(TextAsset), true);
 
@@ -103,7 +97,7 @@ namespace AIGamedevToolkit
         }
 
         /// <summary>
-        /// 
+        /// Trims the full file path down to the relative path for the Unity project
         /// </summary>
         /// <param name="newModelPath"></param>
         /// <returns></returns>
