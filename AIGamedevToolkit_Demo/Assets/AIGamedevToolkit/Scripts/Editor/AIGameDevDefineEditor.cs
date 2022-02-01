@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEditor.Compilation;
-using UnityEngine.Rendering;
 
 namespace AIGamedevToolkit
 {
