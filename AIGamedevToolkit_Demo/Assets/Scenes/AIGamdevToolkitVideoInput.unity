@@ -578,7 +578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inferenceFeatureList:
   - {fileID: 11400000, guid: a17e7dd1a62bb0f4da430e69bef76925, type: 2}
-  showInferenceFeatureSettings: 0
+  showInferenceFeatureSettings: 1
 --- !u!4 &1256267395
 Transform:
   m_ObjectHideFlags: 0
