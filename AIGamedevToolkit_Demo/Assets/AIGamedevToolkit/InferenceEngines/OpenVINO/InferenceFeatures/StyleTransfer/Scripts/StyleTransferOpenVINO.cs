@@ -11,7 +11,9 @@ namespace AIGamedevToolkit
     /// </summary>
     public class StyleTransferOpenVINO
     {
-        // Name of the DLL file
+        /// <summary>
+        /// Name of the DLL file
+        /// </summary>
         const string dll = "OpenVINO_Style_Transfer_DLL";
 
         /// <summary>
@@ -126,7 +128,7 @@ namespace AIGamedevToolkit
         }
 
         /// <summary>
-        /// Return an array containing the names of the available compute devices
+        /// Return a list containing the names of the available compute devices
         /// </summary>
         /// <returns></returns>
         public List<string> GetAvailableDevices()
