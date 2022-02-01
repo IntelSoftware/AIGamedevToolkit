@@ -6,11 +6,20 @@ namespace AIGamedevToolkit
     [System.Serializable]
     public class InferenceFeatureObjectDetection2D : InferenceFeatureVision
     {
+        /// <summary>
+        /// The list of object classes the model for the 
+        /// InferenceFeatureObjectDetection2D is trained to detect
+        /// </summary>
         public ObjectDetectionClassList classList;
 
+        /// <summary>
+        /// Keeps track of whether to display bouding boxes for detected objects
+        /// </summary>
         public bool displayBoundingBoxes = true;
 
-        // Stores information about detected obejcts
+        /// <summary>
+        /// Stores information about detected obejcts
+        /// </summary>
         public Object[] objectInfoArray;
 
 
