@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace AIGamedevToolkit
 {
+    /// <summary>
+    /// Contains the class labels for the COCO Dataset
+    /// https://cocodataset.org/#home
+    /// </summary>
     [CreateAssetMenu(menuName = "AIGamedevToolkit/Object Detection/Class Lists/COCO Classes")]
     [System.Serializable]
     public class COCOClassList : ObjectDetectionClassList
