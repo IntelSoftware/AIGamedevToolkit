@@ -4,12 +4,20 @@ using UnityEngine;
 
 namespace AIGamedevToolkit
 {
+    /// <summary>
+    /// Responsible for drawing bounding boxes for objects detected by any attached object detection features
+    /// </summary>
     public class BoundingBoxManager : MonoBehaviour
     {
+        /// <summary>
+        /// The list of object detection inference features
+        /// </summary>
         public InferenceFeatureObjectDetection2D[] objectDetectors;
 
 
-        // The texture used for rendering the bounding box on screen
+        /// <summary>
+        /// The texture used for rendering the bounding box on screen
+        /// </summary>
         private Texture2D boxTex;
 
 
@@ -19,17 +27,17 @@ namespace AIGamedevToolkit
             boxTex = Texture2D.whiteTexture;
         }
 
-
         // Update is called once per frame
         void Update()
         {
-
         }
 
-
+        /// <summary>
+        /// Called for rendering and handling GUI events
+        /// </summary>
         public void OnGUI()
         {
-
+            // Draw bounding boxes for each attached object detection inference feature
             foreach (InferenceFeatureObjectDetection2D objectDetector in objectDetectors)
             {
                 if (objectDetector.displayBoundingBoxes && objectDetector.active)
