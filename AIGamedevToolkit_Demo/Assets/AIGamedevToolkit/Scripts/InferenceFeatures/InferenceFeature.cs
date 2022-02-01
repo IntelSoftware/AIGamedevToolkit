@@ -70,6 +70,7 @@ namespace AIGamedevToolkit
             Utils.GetOrCreateInferenceManager();
 
         }
+        
         /// <summary>
         /// Removes the actual inference to the scene - this should remove everything applied in "ApplyToScene"
         /// </summary>
@@ -79,14 +80,6 @@ namespace AIGamedevToolkit
 
         /// <summary>
         /// Draws Unity Editor inputs so that the user can enter default values for configuration parameters for this inference feature.
-        /// </summary>
-        public virtual void DrawEditorOptions()
-        {
-        }
-
-
-        /// <summary>
-        /// 
         /// </summary>
         public virtual void DrawUI()
         {
