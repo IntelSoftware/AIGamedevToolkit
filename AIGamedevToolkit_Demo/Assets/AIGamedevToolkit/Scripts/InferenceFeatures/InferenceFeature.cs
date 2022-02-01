@@ -66,9 +66,7 @@ namespace AIGamedevToolkit
         /// </summary>
         public virtual void ApplyToScene()
         {
-            Utils.AddCameraTextureHelper();
             Utils.GetOrCreateInferenceManager();
-
         }
         
         /// <summary>
