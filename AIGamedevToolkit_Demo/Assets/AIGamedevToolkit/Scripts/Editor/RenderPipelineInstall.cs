@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,11 +11,11 @@ namespace AIGamedevToolkit
         {
             RenderPipeline currentRenderPipeline = Utils.GetActivePipeline();
             RenderPipeline installedPipeline = RenderPipeline.BuiltIn;
-#if HDPipeline
+            #if HDPipeline
             installedPipeline = RenderPipeline.HighDefinition;
-#elif UPPipeline
+            #elif UPPipeline
             installedPipeline = RenderPipeline.Universal;
-#endif
+            #endif
             if (currentRenderPipeline != installedPipeline)
             {
                 string message = "It looks like the AI GameDev Toolkit is not set up for the current render pipeline yet.\r\n\r\n" +
