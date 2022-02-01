@@ -26,4 +26,4 @@ MonoBehaviour:
   Devices: GPU
   Models: YOLOXLarge
   nmsThreshold: 0.45
-  minConfidence: 0.419
+  minConfidence: 0.3
