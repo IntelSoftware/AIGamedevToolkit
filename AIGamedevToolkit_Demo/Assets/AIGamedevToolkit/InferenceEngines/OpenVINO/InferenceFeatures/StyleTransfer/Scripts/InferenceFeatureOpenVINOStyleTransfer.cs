@@ -7,6 +7,10 @@ using UnityEditor;
 
 namespace AIGamedevToolkit
 {
+    /// <summary>
+    /// A scriptable object for creating inference feature assets that 
+    /// perform style transfer using OpenVINO
+    /// </summary>
     [CreateAssetMenu(menuName = "AIGamedevToolkit/Inference Feature/OpenVINO/Style Transfer")]
     [System.Serializable]
     public class InferenceFeatureOpenVINOStyleTransfer : InferenceFeatureVision, IOpenVINOInferenceFeature
@@ -20,11 +24,6 @@ namespace AIGamedevToolkit
         /// The compute shader containing the required processing steps
         /// </summary>
         public ComputeShader computeShader;
-
-        /// <summary>
-        /// Implements the functionality for performing style transfer inference with OpenVINO
-        /// </summary>
-        public StyleTransferOpenVINO styleTransferOpenVINO;
 
         /// <summary>
         /// The compute device used when performing inference
@@ -47,6 +46,11 @@ namespace AIGamedevToolkit
         /// Stores the names of the available model assets
         /// </summary>
         public static List<string> modelList = new List<string>();
+
+        /// <summary>
+        /// Implements the functionality for performing style transfer inference with OpenVINO
+        /// </summary>
+        public StyleTransferOpenVINO styleTransferOpenVINO;
 
         /// <summary>
         /// Contains the input texture that will be sent to the OpenVINO inference engine
@@ -159,6 +163,9 @@ namespace AIGamedevToolkit
             // Set up the neural network for the OpenVINO inference engine
             styleTransferOpenVINO.InputDims = this.imageDims;
 
+            // Don't try to initialize styleTransferOpenVINO if it has not been instantiated
+            if (styleTransferOpenVINO == null) return;
+
             // Initialize OpenVINO plugin using the current model and compute device
             if (Devices.Length > 0 && Models.Length > 0)
             {
@@ -213,7 +220,7 @@ namespace AIGamedevToolkit
         /// <summary>
         /// Perform inference using pixel data from the provided RenderTexture
         /// </summary>
-        /// <param name="renderTexture"></param>
+        /// <param name="renderTexture">Contains the pixel data for the model input</param>
         public override void Inference(RenderTexture renderTexture)
         {
             // Only perform inference when unsafe code is enabled
@@ -229,31 +236,26 @@ namespace AIGamedevToolkit
             RenderTexture.active = tempTex;
             // Copy texture data from the GPU to the CPU
             inputTex.ReadPixels(new Rect(0, 0, tempTex.width, tempTex.height), 0, 0);
-            // Apply changes to CPU texture
+            // Apply changes to texture
             inputTex.Apply();
-
             // Get raw data from CPU texture
             inputData = inputTex.GetRawTextureData();
-
             // Send reference to inputData to DLL
             styleTransferOpenVINO.UploadTexture(inputData);
-
             // Load the new image data from the DLL to the texture
             inputTex.LoadRawTextureData(inputData);
             // Apply the changes to the texture
             inputTex.Apply();
-
             // Copy output texture data back to the temporary RenderTexture
             Graphics.Blit(inputTex, tempTex);
-
             // Flip image before sending to DLL
             FlipImage(computeShader, tempTex, "FlipXAxis");
-
-            /// Copy temporary texture data to the input RenderTexture
+            // Copy temporary texture data to the input RenderTexture
             Graphics.Blit(tempTex, renderTexture);
             // Release memory resources allocated for the temporary texture
             RenderTexture.ReleaseTemporary(tempTex);
             #else
+            // Inform user when unsafe code is not enabled
             Debug.Log("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.");
             #endif
         }
