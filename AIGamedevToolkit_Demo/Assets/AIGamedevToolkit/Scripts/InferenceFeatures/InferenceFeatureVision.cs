@@ -31,6 +31,12 @@ namespace AIGamedevToolkit
 
         }
 
+        public override void ApplyToScene()
+        {
+            base.ApplyToScene();
+            Utils.AddCameraTextureHelper();
+        }
+
 
         /// <summary>
         /// Calculate the dimensions for the input image
