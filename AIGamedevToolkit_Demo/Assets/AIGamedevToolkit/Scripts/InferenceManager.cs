@@ -1,9 +1,11 @@
 using UnityEngine;
-using System.IO;
 using System.Collections.Generic;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
+#else
+using System.IO;
 #endif
 
 
@@ -11,41 +13,27 @@ namespace AIGamedevToolkit
 {
     public class InferenceManager : MonoBehaviour
     {
-        [Tooltip("")]
+        /// <summary>
+        /// The list of inference features to initialize
+        /// </summary>
+        [Tooltip("The list of inference features to initialize")]
         public List<InferenceFeature> inferenceFeatureList;
 
+        /// <summary>
+        /// Keeps track of whether to unfold the list of inference feature settings
+        /// </summary>
         [HideInInspector]
         public bool showInferenceFeatureSettings = false;
 
-        // 
+        /// <summary>
+        /// Keeps track of whether Intel hardware is present
+        /// </summary>
         private bool intelHardware;
 
-        // 
-//        string pluginsXmlFileContent = @"<ie>
-//    <plugins>
-//        <plugin name=""AUTO"" location=""AutoPlugin.dll"">
-//        </plugin>
-//        <plugin name=""GNA"" location=""GNAPlugin.dll"">
-//        </plugin>
-//        <plugin name=""HETERO"" location=""HeteroPlugin.dll"">
-//        </plugin>
-//        <plugin name=""CPU"" location=""MKLDNNPlugin.dll"">
-//        </plugin>
-//        <plugin name=""MULTI"" location=""MultiDevicePlugin.dll"">
-//        </plugin>
-//        <plugin name=""GPU"" location=""clDNNPlugin.dll"">
-//        </plugin>
-//        <plugin name=""MYRIAD"" location=""myriadPlugin.dll"">
-//        </plugin>
-//        <plugin name=""HDDL"" location=""HDDLPlugin.dll"">
-//        </plugin>
-//        <plugin name=""VPUX"" location=""VPUXPlugin.dll"">
-//        </plugin>
-//    </plugins>
-//</ie>";
-
-
-
+        /// <summary>
+        /// Check if either the CPU or main GPU is Intel hardware
+        /// </summary>
+        /// <returns></returns>
         private bool IntelHardwarePresent()
         {
             // Check if either the CPU of GPU is made by Intel
@@ -54,12 +42,14 @@ namespace AIGamedevToolkit
             return processorType.Contains("Intel") || graphicsDeviceName.Contains("Intel");
         }
 
-
+        /// <summary>
+        /// Called when the script instance is being loaded
+        /// </summary>
         public void Awake()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
 
-#else
+            #else
             string pluginsXmlFileContent = @"<ie>
     <plugins>
         <plugin name=""AUTO"" location=""AutoPlugin.dll"">
@@ -99,79 +89,54 @@ namespace AIGamedevToolkit
                 File.WriteAllText(targetPath, pluginsXmlFileContent);
             }
 
-#endif
+            #endif
 
 
             intelHardware = IntelHardwarePresent();
 
-            foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
-            {
-                if (inferenceFeature is IOpenVINOInferenceFeature && intelHardware == false)
-                {
-                    inferenceFeature.active = false;
-
-                }
-                else
-                {
-                    //Debug.Log($"Instantiating {inferenceFeature.name}");
-                    inferenceFeature.Instantiate();
-                    inferenceFeature.InitializeDropdowns();
-                }
-            }
-
-            // Perform the requred 
+            // Initialized the atteched inference features
             InitializeFeatures();
         }
-
 
         /// <summary>
         /// Perform the initialization steps
         /// </summary>
         private void InitializeFeatures()
         {
-            foreach (InferenceFeatureVision inferenceFeature in inferenceFeatureList)
-            {
-                if (inferenceFeature is IOpenVINOInferenceFeature && intelHardware == false)
-                {
-                    inferenceFeature.active = false;
-
-                }
-                else
-                {
-                    inferenceFeature.InitializeTextures();
-                }
-            }
-
-
             foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
             {
+                // Only initialize OpenVINO inference features when Intel hardware is detected
                 if (inferenceFeature is IOpenVINOInferenceFeature && intelHardware == false)
                 {
                     inferenceFeature.active = false;
-
                 }
                 else
                 {
+                    //Debug.Log($"Instantiating {inferenceFeature.name}");
+                    inferenceFeature.Instantiate();
+                    inferenceFeature.InitializeDropdowns();
                     inferenceFeature.Initialize();
                 }
             }
         }
 
-
-        // Start is called before the first frame update
+        /// <summary>
+        /// Start is called before the first frame update
+        /// </summary>
         void Start()
         {
-
         }
 
-
-        // Update is called once per frame
+        /// <summary>
+        /// Update is called once per frame
+        /// </summary>
         void Update()
         {
-            
         }
-
-                
+        
+        /// <summary>
+        /// Called when the monobehavior becomes disabled or inactive
+        /// </summary>
         private void OnDisable()
         {
             foreach (InferenceFeature inferenceFeature in inferenceFeatureList)
@@ -180,7 +145,6 @@ namespace AIGamedevToolkit
             }
         }
 
-
         /// <summary>
         /// Called when the Quit button is clicked.
         /// </summary>
@@ -188,12 +152,6 @@ namespace AIGamedevToolkit
         {
             // Causes the application to exit
             Application.Quit();
-        }
-
-
-        public void OnGUI()
-        {
-
         }
     }
 }
