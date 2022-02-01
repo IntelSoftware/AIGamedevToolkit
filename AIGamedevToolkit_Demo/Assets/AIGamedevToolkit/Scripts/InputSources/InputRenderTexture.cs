@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,7 +11,7 @@ namespace AIGamedevToolkit
         // Stores a reference to the input render texture
         public RenderTexture renderTexture;
         // A list of inference feature assets take in the render texture as input
-        public InferenceFeatureVision[] inferenceFeatures;
+        public List<InferenceFeatureVision> inferenceFeatures;
 
         private void OnEnable()
         {
