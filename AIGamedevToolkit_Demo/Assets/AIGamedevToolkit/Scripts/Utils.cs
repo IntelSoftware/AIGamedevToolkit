@@ -74,6 +74,11 @@ namespace AIGamedevToolkit
                 string inputTexturePath = GetAssetPath("MainCamera_Texture", "asset");
                 InputRenderTexture inputTexture = (InputRenderTexture)AssetDatabase.LoadAssetAtPath(inputTexturePath, typeof(InputRenderTexture));
                 cth.inputTextures = new InputRenderTexture[1] { inputTexture };
+
+                foreach (InferenceFeatureVision visionFeature in InferenceFeature.allFeatures)
+                {
+                    inputTexture.inferenceFeatures.Add(visionFeature);
+                }
             }
             #endif
         }
