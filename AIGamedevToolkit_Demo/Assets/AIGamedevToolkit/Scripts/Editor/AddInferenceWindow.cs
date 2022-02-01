@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,9 +28,9 @@ namespace AIGamedevToolkit
 
         private void OnGUI()
         {
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-        InferenceFeatureListEditor.DisplayFeatureList();
-        EditorGUILayout.EndScrollView();
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            InferenceFeatureListEditor.DisplayFeatureList();
+            EditorGUILayout.EndScrollView();
         }
     }
 }
