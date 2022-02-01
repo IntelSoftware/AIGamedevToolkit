@@ -23,5 +23,3 @@ MonoBehaviour:
   computeShader: {fileID: 7200000, guid: 3a534990e7346f147a9cca3aef65d000, type: 3}
   Devices: GPU
   Models: MeshShaderStyleTransfer
-  currentDevice: GPU.1
-  currentModel: mesh-shader_fp16.xml
