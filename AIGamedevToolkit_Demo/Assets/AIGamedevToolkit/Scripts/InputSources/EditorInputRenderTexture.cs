@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AIGamedevToolkit
 {
+    using System.Collections.Generic;
 #if UNITY_EDITOR
     using UnityEditor;
 
@@ -12,7 +13,7 @@ namespace AIGamedevToolkit
         public override void OnInspectorGUI()
         {
             InputRenderTexture inputRenderTexture = (InputRenderTexture)target;
-            InferenceFeatureVision[] inferenceFeatures = inputRenderTexture.inferenceFeatures;
+            List<InferenceFeatureVision> inferenceFeatures = inputRenderTexture.inferenceFeatures;
 
             base.OnInspectorGUI();
 
