@@ -62,6 +62,14 @@ namespace AIGamedevToolkit
         /// <param name="displayApplyButton">Whether a button should be displayed that applies the selected setup to the scene.</param>
         public static void DisplayFeatureList(bool displayApplyButton = true)
         {
+            if (InferenceFeature.allFeatures.OfType<IOpenVINOInferenceFeature>().Any())
+            {
+                #if AIGAMEDEV_UNSAFE
+                #else
+                EditorGUILayout.HelpBox("Unsafe code needs to be enabled for OpenVINO inference. Please enable \"Allow 'unsafe' Code\" in Player settings.", MessageType.Warning);
+                #endif
+            }
+
             // Iterate over all the features
             foreach (InferenceFeature feature in InferenceFeature.allFeatures)
             {
