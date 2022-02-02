@@ -62,6 +62,7 @@ namespace AIGamedevToolkit
         /// </summary>
         private byte[] inputData;
 
+        #pragma warning disable 0414
         /// <summary>
         /// Keeps track of whether to show the settings for the attached model assets
         /// </summary>
@@ -71,6 +72,7 @@ namespace AIGamedevToolkit
         /// The label for the models assets settings section
         /// </summary>
         private string modelAssetSettingsLabel = "Model Asset Settings";
+        #pragma warning restore 0414
 
         /// <summary>
         /// Called whenever a different model asset is selected
