@@ -29,8 +29,17 @@ namespace AIGamedevToolkit
             if (gameObject.GetComponent<VideoPlayer>().enabled == false) return;
             if (videoNames.Count <= 0) return;
 
-            // Set Initial video clip
-            gameObject.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(Videos)];
+            if (Videos == null || Videos.Length <= 0)
+            {
+                // Set Initial video clip
+                gameObject.GetComponent<VideoPlayer>().clip = videoClips[0];
+            }
+            else
+            {
+                // Set Initial video clip
+                gameObject.GetComponent<VideoPlayer>().clip = videoClips[videoNames.IndexOf(Videos)];
+            }
+
             // Update the videoDims.y
             videoDims.y = (int)gameObject.GetComponent<VideoPlayer>().height;
             // Update the videoDims.x
@@ -39,7 +48,7 @@ namespace AIGamedevToolkit
             videoTexture.renderTexture = RenderTexture.GetTemporary(videoDims.x,
                 videoDims.y, 24, RenderTextureFormat.ARGB32);
         }
-        
+
 
         /// <summary>
         /// 
