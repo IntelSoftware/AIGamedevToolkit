@@ -1,10 +1,26 @@
-Overview
+# Getting Started
+
+
+
+* [Overview](#overview)
+* [Background Information](#background-information)
+* [Clone Toolkit Repository](#clone-toolkit-repository)
+* [Create Unity Project](#create-unity-project)
+* [Add Toolkit Folder](#add-toolkit-folder)
+* [Add Inference Features](#add-inference-features)
+* [Allow Unsafe Code](#allow-unsafe-code)
+* [Install Barracuda Package](#install-barracuda-package)
+* [Add Input Data](#add-input-data)
+
+
+
+## Overview
 
 In this tutorial we will provide a basic demonstration of how to incorporate the [AIGamedevToolkit](https://www.intel.com/content/www/us/en/developer/articles/training/ai-gamedev-toolkit-tutorials.html) into a [Unity](https://unity.com/) project. By the end, you will know how to run a [deep learning](https://community.intel.com/t5/Blogs/Tech-Innovation/Artificial-Intelligence-AI/The-Difference-Between-Artificial-Intelligence-Machine-Learning/post/1335666) model inside a Unity scene, without any additional coding.
 
 
 
-Background Information
+## Background Information
 
 For our purposes, a model can be thought of like a function in traditional programming. A model takes in input and returns an output. Unlike in traditional programming, the desired function is not explicitly coded, but [approximated](https://machinelearningmastery.com/neural-networks-are-function-approximators/) based on a sample dataset. The sample dataset provides a mapping of input values to output values.  As an example, a model could approximate a function that takes in an image as input and returns the locations and types of objects in the image based on a sample dataset of annotated images.
 
@@ -16,13 +32,13 @@ In the AIGamedevToolkit, a model's functionality is accessed through an `Inferen
 
 
 
-Clone Toolkit Repository
+## Clone Toolkit Repository
 
 First, we need to clone the [GitHub repository](https://github.com/IntelSoftware/AIGamedevToolkit) for the toolkit. Make sure to actually clone the repository rather than downloading it as a `.zip`. Compressing the project folder can break some of the binary files included in the toolkit.
 
 
 
-Create Unity Project
+## Create Unity Project
 
 Next, we need to create Unity project to use the toolkit. We can stick with the default template for a 3D project.
 
@@ -30,7 +46,7 @@ Next, we need to create Unity project to use the toolkit. We can stick with the 
 
 
 
-Add Toolkit Folder
+## Add Toolkit Folder
 
 Once the Unity Editor has loaded, we can add the toolkit folder. Open the AIGamedevToolkit repository folder and select the `AIGamedevToolkit` subfolder.
 
@@ -42,7 +58,7 @@ Drag the toolkit folder into the `Project → Assets` directory.
 
 
 
-Add Inference Features
+## Add Inference Features
 
 The toolkit comes with some predefined `InferenceFeature` assets for both Intel's [OpenVINO](https://docs.openvino.ai/latest/index.html) and Unity's [Barracuda](https://docs.unity3d.com/Packages/com.unity.barracuda@2.0/manual/index.html) inference libraries.
 
@@ -64,7 +80,7 @@ The toolkit adds a graphical user interface (GUI) for adding inference features 
 
 
 
-Allow Unsafe Code
+## Allow Unsafe Code
 
 As we can see in the new window, there is a warning that unsafe code needs to be enabled to use OpenVINO inference features. This is because the memory location containing the pixel data for an input image needs to be accessed from a DLL plugin.
 
@@ -90,7 +106,7 @@ The toolkit will automatically detect that the setting was enabled and unlock th
 
 
 
-Install Barracuda Package
+## Install Barracuda Package
 
 If we try to view the options for a Barracuda inference feature we see a similar warning message indicating that the [Barracuda package](https://github.com/Unity-Technologies/barracuda-release) is not installed.
 
@@ -138,7 +154,7 @@ When adding object detection inference features like the `COCO_YOLOX` asset, an 
 
 
 
-Add Input Data
+## Add Input Data
 
 At this point, we could go ahead and press play and the object detection model would take input from the in-game camera. However, since the scene is blank, we won't see any bounding boxes displayed. We need to add some input data.
 
