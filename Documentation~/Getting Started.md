@@ -26,7 +26,7 @@ Create Unity Project
 
 Next, we need to create Unity project to use the toolkit. We can stick with the default template for a 3D project.
 
-![create_new_unity_project](.\images\create_new_unity_project.png)
+![create_new_unity_project](images/create_new_unity_project.png)
 
 
 
@@ -34,11 +34,11 @@ Add Toolkit Folder
 
 Once the Unity Editor has loaded, we can add the toolkit folder. Open the AIGamedevToolkit repository folder and select the `AIGamedevToolkit` subfolder.
 
-![select-toolkit-folder](.\images\select-toolkit-folder.png)
+![select-toolkit-folder](images/select-toolkit-folder.png)
 
 Drag the toolkit folder into the `Project → Assets` directory.
 
-![add_toolkit_folder](.\images\add_toolkit_folder.png)
+![add_toolkit_folder](images/add_toolkit_folder.png)
 
 
 
@@ -50,7 +50,7 @@ An inference library refers to the code used to perform the internal operations 
 
 The predefined assets are located in the `Assets → AIGamedevToolkit → ScriptableObjects → InferenceFeatures` folder.
 
-![builtin-inference-features](.\images\builtin-inference-features.png)
+![builtin-inference-features](images/builtin-inference-features.png)
 
 Here, we can see there are three predefined assets.
 
@@ -60,7 +60,7 @@ Here, we can see there are three predefined assets.
 
 The toolkit adds a graphical user interface (GUI) for adding inference features to a scene. This GUI can be accessed from the `Window → AI Gamedev Toolkit` submenu. Open the submenu and select `Add Inference Features`. The toolkit will automatically look for any `InferenceFeature` assets and display them in a popup window.
 
-![toolkit_menu](.\images\toolkit_menu.png)
+![toolkit_menu](images/toolkit_menu.png)
 
 
 
@@ -68,25 +68,25 @@ Allow Unsafe Code
 
 As we can see in the new window, there is a warning that unsafe code needs to be enabled to use OpenVINO inference features. This is because the memory location containing the pixel data for an input image needs to be accessed from a DLL plugin.
 
-![toolkit-inference-feature-window](.\images\toolkit-inference-feature-window.png)
+![toolkit-inference-feature-window](images/toolkit-inference-feature-window.png)
 
 If we try to view the options for an OpenVINO inference feature, we can see the same message.
 
-![toolkit-inference-feature-window-2](.\images\toolkit-inference-feature-window-2.png)
+![toolkit-inference-feature-window-2](images/toolkit-inference-feature-window-2.png)
 
 We can enable unsafe code in the the Player Settings. Open the `Edit` menu and select `Project Settings...`.
 
-![open-project-settings](.\images\open-project-settings.png)
+![open-project-settings](images/open-project-settings.png)
 
 Open the Player submenu and scroll down to the `Allow 'unafe' Code` parameter. Tick the checkbox for the parameter and close the Project Settings window.
 
-![scroll-to-unsafe-code-option](.\images\scroll-to-unsafe-code-option.png)
+![scroll-to-unsafe-code-option](images/scroll-to-unsafe-code-option.png)
 
 The toolkit will automatically detect that the setting was enabled and unlock the inference feature settings after a few seconds. We will explore the settings for the inference features in greater detail in another post. For now, we can stick with the default settings.
 
 > **Note:** The OpenVINO inference library is optimized for Intel hardware. By default, OpenVINO inference features will only run if Intel hardware is detected.
 
-![toolkit-inference-feature-window-3](.\images\toolkit-inference-feature-window-3.png)
+![toolkit-inference-feature-window-3](images/toolkit-inference-feature-window-3.png)
 
 
 
@@ -94,47 +94,47 @@ Install Barracuda Package
 
 If we try to view the options for a Barracuda inference feature we see a similar warning message indicating that the [Barracuda package](https://github.com/Unity-Technologies/barracuda-release) is not installed.
 
-![barracuda-package-not-installed-message](.\images\barracuda-package-not-installed-message.png)
+![barracuda-package-not-installed-message](images/barracuda-package-not-installed-message.png)
 
 We can install the Barracuda package from the Package Manager window. Select the Package Manager tab and click on the `+` sign in the top-left corner.
 
-![package-manager-tab](.\images\package-manager-tab.png)
+![package-manager-tab](images/package-manager-tab.png)
 
 Select the `Add package from git URL...` option from the dropdown.
 
-![add-package-from-git](.\images\add-package-from-git.png)
+![add-package-from-git](images/add-package-from-git.png)
 
 Type `com.unity.barracuda` into the text field and click `Add`.
 
-![add-barracuda-from-git](.\images\add-barracuda-from-git.png)
+![add-barracuda-from-git](images/add-barracuda-from-git.png)
 
 The latest stable version of Barracuda at the time of writing is version `2.0.0`.
 
-![installed-barracuda-package](.\images\installed-barracuda-package.png)
+![installed-barracuda-package](images/installed-barracuda-package.png)
 
 As with enabling unsafe code, the toolkit will automatically detect that the Barracuda package was installed and unlock the inference feature settings. If we go back to the AIGameDev Toolkit window, we can now see and interact with the Barracuda inference feature.
 
-![toolkit-inference-feature-window-4](.\images\toolkit-inference-feature-window-4.png)
+![toolkit-inference-feature-window-4](images/toolkit-inference-feature-window-4.png)
 
 We can stack multiple inference features, but we'll stick with adding just one for now. If you are running on Intel hardware stick with the default `COCO_YOLOX` selection. Otherwise, deselect the `COCO_YOLOX` inference feature and select the `StyleTransfer_Barracuda` option. Click on `Apply now` to add the inference feature to the scene.
 
-![apply-inference-feature-to-scene](.\images\apply-inference-feature-to-scene.png)
+![apply-inference-feature-to-scene](images/apply-inference-feature-to-scene.png)
 
 The toolkit makes some assumptions about the scene when adding inference features through the `AI Gamedev Toolkit` window.
 
 When adding [computer vision](https://machinelearningmastery.com/what-is-computer-vision/) inference features, which take in images as input, the toolkit will attach a helper script to the in-game camera. This script is responsible for getting the texture data for the current frame and making it accessible to any computer vision inference features.
 
-![camera-texture-helper-component](.\images\camera-texture-helper-component.png)
+![camera-texture-helper-component](images/camera-texture-helper-component.png)
 
 Some inference features like the `COCO_YOLOX` asset will only use the current camera frame as input for their deep learning model. Others, like the two style transfer inference features, will also modify the texture data for the current camera frame like a post-processing effect.
 
 The toolkit will also create a new GameObject called `Inference Manager` with an [`InferenceManager`](https://github.com/IntelSoftware/AIGamedevToolkit/blob/main/AIGamedevToolkit/Scripts/InferenceManager.cs) component and attach the selected inference features to the component. The Inference Manager provides a central place to configure and initialize any Inference Features in the Unity scene.
 
-![inference-manager-component](.\images\inference-manager-component.png)
+![inference-manager-component](images/inference-manager-component.png)
 
 When adding object detection inference features like the `COCO_YOLOX` asset, an additional GameObject will be added called `Bounding Box Manager`. This will have a [`BoundingBoxManager`](https://github.com/IntelSoftware/AIGamedevToolkit/blob/main/AIGamedevToolkit/Scripts/ObjectDetection/BoundingBoxManager.cs) component and any object detection inference features in the scene will be attached. This GameObject will be responsible for drawing boxes around any detected objects and indicating their predicted object type.
 
-![bounding-box-manager-component](.\images\bounding-box-manager-component.png)
+![bounding-box-manager-component](images/bounding-box-manager-component.png)
 
 
 
@@ -148,51 +148,51 @@ The toolkit provides built-in options for creating a video feed using a video fi
 
 Right-click an empty area in the Hierarchy tab and select `3D Object → Quad ` from the popup menu.
 
-![add-quad](.\images\add-quad.png)
+![add-quad](images/add-quad.png)
 
 We can just name the new object `VideoScreen`. With the video screen object selected, click `Add Component` in the Inspector tab. 
 
-![click-add-component](.\images\click-add-component.png)
+![click-add-component](images/click-add-component.png)
 
 Type `Video Screen Manager` into the search bar and press `Enter`.
 
-![empty-video-screen-manager](.\images\empty-video-screen-manager.png)
+![empty-video-screen-manager](images/empty-video-screen-manager.png)
 
 
 
 Drag the `VideoScreen` object from the Hierarchy tab into the `Video Screen` field for the `VideoScreenManager` component. This will allow the `Quad` dimensions to be updated based on the current video dimensions.
 
-![attach-video-screen](.\images\attach-video-screen.png)
+![attach-video-screen](images/attach-video-screen.png)
 
 
 
 Next we need an input texture to store the pixel data for the video feed. Click on the little circle icon at the end of the `Input Texture` field. 
 
-![open-input-texture-selection](.\images\open-input-texture-selection.png)
+![open-input-texture-selection](images/open-input-texture-selection.png)
 
 
 
 Select the `VideoPlayer_Texture` asset in the popup window.
 
-![select-video-player-texture](.\images\select-video-player-texture.png)
+![select-video-player-texture](images/select-video-player-texture.png)
 
 Lastly, drag the in-game camera from the Hierarchy Tab into the `Target Camera` field. This will allow the camera to be repositioned based on the the current video dimensions. The `Video Dims` field will be updated based on the current video dimensions.
 
-![attach-game-camera](.\images\attach-game-camera.png)
+![attach-game-camera](images/attach-game-camera.png)
 
 We can use a video file or webcam feed by adding a either a `Video Manager` or `Webcam Manager` component respectively to the `VideoScreen`. 
 
-![attach-video-webcam-managers](.\images\attach-video-webcam-managers.png)
+![attach-video-webcam-managers](images/attach-video-webcam-managers.png)
 
 In both cases, we need to assign the same `VideoPlayer_Texture` asset as is used for the `Video Screen Manager` component to the `Video Texture` field.
 
 When using a Video Manager we also need to populate the `Video Clips` field with video files. Feel free to use your own video files or use the [sample videos](https://github.com/IntelSoftware/aigamedevtoolkit-starter-demos/tree/main/AIGamedevToolkit_Demo/Assets/Videos) included in the pre-configured demo project. 
 
-![add-video-clips](.\images\add-video-clips.png)
+![add-video-clips](images/add-video-clips.png)
 
 The last component we need to add to the `VideoScreen` is a `VideoPlayer` to play the video clips. Make sure to enable the `Loop` parameter for the Video Player component.
 
-![add-video-player-component](.\images\add-video-player-component.png)
+![add-video-player-component](images/add-video-player-component.png)
 
 
 
@@ -200,15 +200,15 @@ The last component we need to add to the `VideoScreen` is a `VideoPlayer` to pla
 
 Now if we press play, we should see that bounding boxes are drawn around objects detected in the video.
 
-![test-yolox-plane](.\images\test-yolox-plane.png)
+![test-yolox-plane](images/test-yolox-plane.png)
 
-![test-yolox-bus](.\images\test-yolox-bus.png)
+![test-yolox-bus](images/test-yolox-bus.png)
 
-![test-yolox-person](.\images\test-yolox-person.png)
+![test-yolox-person](images/test-yolox-person.png)
 
 
 
-![test-yolox-zebra](.\images\test-yolox-zebra.png)
+![test-yolox-zebra](images/test-yolox-zebra.png)
 
 
 
@@ -303,10 +303,10 @@ COCO Dataset Object Classes
 
 > **Note:** If you went with one of the style transfer inference features you should see something like the image below.
 >
-> ![test-style-transfer-plane](.\images\test-style-transfer-plane.png)
+> ![test-style-transfer-plane](images/test-style-transfer-plane.png)
 
 
 
 As mentioned before, we can can also stack multiple inference features. Although, this might not be advisable for performance reasons, depending on the models being used.
 
-![stack-inference-features](.\images\stack-inference-features.png)
+![stack-inference-features](images/stack-inference-features.png)
