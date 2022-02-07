@@ -7,6 +7,11 @@ For more information about Gaia ML and the integration of the AI Gamedev Toolkit
 
 
 
-Demo Projects
+## Demo Projects
 
 * [Starter Demos](https://github.com/IntelSoftware/aigamedevtoolkit-starter-demos)
+
+## Important Notes
+
+**DLL Conflicts:** It is possible that other Unity assets depend on some of the same 3rd-party `.dll` files (e.g. `tbb.dll`) as the AIGamedevToolkit. Unity only allows one copy of a given `.dll` file in a project and will throw an error. This issue can be resolved by removing the duplicate `.dll` files located in the `AIGamedevToolkit/InferenceEngines/OpenVINO/Plugins/x86_64/` subfolder.
+
