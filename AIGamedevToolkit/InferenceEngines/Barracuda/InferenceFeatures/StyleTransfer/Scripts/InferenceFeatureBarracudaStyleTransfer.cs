@@ -151,7 +151,14 @@ namespace AIGamedevToolkit
             // Execute model
             styleTransferBarracuda.Exectute(tempTex);
             // Perform postprocessing steps
-            ProcessImage(tempTex, "ProcessOutput");
+            if (PlayerSettings.colorSpace == ColorSpace.Gamma)
+            {
+                ProcessImage(tempTex, "ProcessOutput");
+            }
+            else
+            {
+                ProcessImage(tempTex, "ProcessOutputLinear");
+            }
             // Copy temporary texture data to the input RenderTexture
             Graphics.Blit(tempTex, renderTexture);
             // Release memory resources allocated for the temporary texture
