@@ -15,7 +15,7 @@ namespace AIGamedevToolkit
 
         private void OnEnable()
         {
-            renderTexture = RenderTexture.GetTemporary(1920, 1080, 24, RenderTextureFormat.ARGB32);
+            renderTexture = RenderTexture.GetTemporary(1920, 1080, 24, RenderTextureFormat.ARGBHalf);
         }
 
         public void SetTexture(RenderTexture rTex)
