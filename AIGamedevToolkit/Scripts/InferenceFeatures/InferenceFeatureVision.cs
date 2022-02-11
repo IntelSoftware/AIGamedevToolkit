@@ -34,7 +34,7 @@ namespace AIGamedevToolkit
         public override void ApplyToScene()
         {
             base.ApplyToScene();
-            Utils.AddCameraTextureHelper();
+            Utils.AddTextureHelper();
         }
 
 
