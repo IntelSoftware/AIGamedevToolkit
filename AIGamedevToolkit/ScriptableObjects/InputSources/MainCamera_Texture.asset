@@ -15,5 +15,5 @@ MonoBehaviour:
   renderTexture: {fileID: 0}
   inferenceFeatures:
   - {fileID: 11400000, guid: a17e7dd1a62bb0f4da430e69bef76925, type: 2}
-  - {fileID: 11400000, guid: 3dffc60355a624a419356c564bb26420, type: 2}
   - {fileID: 11400000, guid: 4faf88e8f6f66bf43860e15ff100dbf8, type: 2}
+  - {fileID: 11400000, guid: 3dffc60355a624a419356c564bb26420, type: 2}
