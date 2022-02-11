@@ -6,6 +6,10 @@ using System.Linq;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
 
+#if HDPipeline
+using UnityEngine.Rendering.HighDefinition;
+#endif
+
 #if GAIA_2_PRESENT
 using Gaia;
 #endif
@@ -21,6 +25,7 @@ namespace AIGamedevToolkit
     public class Utils
     {
         // Constants for the render pipeline scripting defines
+        public const string BuiltinPipelineDefine = "BuiltinPipeline";
         public const string HDPipelineDefine = "HDPipeline";
         public const string UniversalPipelineDefine = "UPPipeline";
 
@@ -59,8 +64,96 @@ namespace AIGamedevToolkit
             return infMan;
         }
 
-        public static void AddCameraTextureHelper()
+        public static void AddTextureHelper()
         {
+            #if HDPipeline
+            string helper_string = "AIGamedevToolkit.HDRPTextureHelper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+
+            
+            RenderPipelineAsset currentSettings = GraphicsSettings.defaultRenderPipeline;
+            
+            SerializedObject currentSettingsSO = new SerializedObject(currentSettings);
+
+            //SerializedProperty m_DefaultVolumeProfile = currentSettingsSO.FindProperty("m_DefaultVolumeProfile");
+            //VolumeProfile volumeProfile = (VolumeProfile)m_DefaultVolumeProfile.objectReferenceValue;
+
+            //if (!volumeProfile.TryGet<AIGamedevToolkit.HDRPTextureHelper>(out var textureHelper))
+            //{
+            //    textureHelper = volumeProfile.Add<AIGamedevToolkit.HDRPTextureHelper>(true);
+            //    textureHelper.inputTexturesParam.overrideState = true;
+
+            //    string inputTexturePath = GetAssetPath("MainCamera_Texture", "asset");
+            //    InputRenderTexture inputTexture = (InputRenderTexture)AssetDatabase.LoadAssetAtPath(inputTexturePath, typeof(InputRenderTexture));
+
+            //    inputTexture.inferenceFeatures.Clear();
+            //    foreach (InferenceFeatureVision visionFeature in InferenceFeature.allFeatures)
+            //    {
+            //        inputTexture.inferenceFeatures.Add(visionFeature);
+            //    }
+
+            //    textureHelper.inputTexturesParam.value.Add(inputTexture);
+            //}
+            //else
+            //{
+            //    Debug.Log("Volume Component already added to Volume Profile");
+            //}
+            //m_DefaultVolumeProfile.objectReferenceValue = volumeProfile;
+            //EditorUtility.SetDirty(volumeProfile);
+
+            //Volume[] volumes = GameObject.FindObjectsOfType<Volume>();
+            //foreach(Volume volume in volumes)
+            //{
+            //    if(volume.sharedProfile.name == "VolumeGlobal")
+            //    {
+            //        VolumeProfile profile = volume.sharedProfile;
+            //        if (!profile.TryGet<AIGamedevToolkit.HDRPTextureHelper>(out var textureHelper))
+            //        {
+            //            textureHelper = profile.Add<AIGamedevToolkit.HDRPTextureHelper>(true);
+            //            textureHelper.inputTexturesParam.overrideState = true;
+
+            //            string inputTexturePath = GetAssetPath("MainCamera_Texture", "asset");
+            //            InputRenderTexture inputTexture = (InputRenderTexture)AssetDatabase.LoadAssetAtPath(inputTexturePath, typeof(InputRenderTexture));
+
+            //            inputTexture.inferenceFeatures.Clear();
+            //            foreach (InferenceFeatureVision visionFeature in InferenceFeature.allFeatures)
+            //            {
+            //                inputTexture.inferenceFeatures.Add(visionFeature);
+            //            }
+
+            //            textureHelper.inputTexturesParam.value.Add(inputTexture);
+
+            //        }
+            //    }
+            //}
+
+
+
+            SerializedProperty afterPostProcessCustomPostProcesses = currentSettingsSO.FindProperty("afterPostProcessCustomPostProcesses");
+
+            bool isPresent = false;
+            for (int i = 0; i < afterPostProcessCustomPostProcesses.arraySize; i++)
+            {
+                if (afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(i).stringValue == helper_string)
+                {
+                    isPresent = true;
+                    break;
+                }
+            }
+
+            if (!isPresent)
+            {
+                int arraySize = afterPostProcessCustomPostProcesses.arraySize;
+                afterPostProcessCustomPostProcesses.InsertArrayElementAtIndex(arraySize);
+                afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(arraySize).stringValue = helper_string;
+            }
+            else
+            {
+                //Debug.Log("HDRPTextureHelper already added to afterPostProcessCustomPostProcesses");
+            }
+            EditorUtility.SetDirty(currentSettings);
+            currentSettingsSO.ApplyModifiedProperties();
+            
+            #else
             Camera camera = GetCamera();
             CameraTextureHelper cth = camera.gameObject.GetComponent<CameraTextureHelper>();
             if (cth == null)
@@ -75,11 +168,13 @@ namespace AIGamedevToolkit
                 InputRenderTexture inputTexture = (InputRenderTexture)AssetDatabase.LoadAssetAtPath(inputTexturePath, typeof(InputRenderTexture));
                 cth.inputTextures = new InputRenderTexture[1] { inputTexture };
 
+                inputTexture.inferenceFeatures.Clear();
                 foreach (InferenceFeatureVision visionFeature in InferenceFeature.allFeatures)
                 {
                     inputTexture.inferenceFeatures.Add(visionFeature);
                 }
             }
+            #endif
             #endif
         }
 
@@ -106,6 +201,7 @@ namespace AIGamedevToolkit
                 default:
                     RemoveDefine(ref currBuildSettings, UniversalPipelineDefine, ref wasChanged);
                     RemoveDefine(ref currBuildSettings, HDPipelineDefine, ref wasChanged);
+                    AddDefine(ref currBuildSettings, BuiltinPipelineDefine, ref wasChanged);
                     break;
             }
             // Only apply an update if we had changes
