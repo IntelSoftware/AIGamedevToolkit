@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: COCO_YOLOX
   m_EditorClassIdentifier: 
   active: 1
-  optionsVisible: 0
+  optionsVisible: 1
   inputTexture: {fileID: 11400000, guid: 747bb74e2613690429cb71f4d0d0724c, type: 2}
   targetDims: {x: 640, y: 360}
   imageDims: {x: 640, y: 360}
@@ -22,8 +22,11 @@ MonoBehaviour:
   modelAssets:
   - {fileID: 11400000, guid: 7de13918ebd764645b0cfd0ff24a8d88, type: 2}
   - {fileID: 11400000, guid: 80798bca0f8f1534dbdc9eba627c0324, type: 2}
+  - {fileID: 11400000, guid: 2d9261153650abd44b1a021db0d06b54, type: 2}
+  - {fileID: 11400000, guid: 1ca102cbb271d064b848008e3f3206a5, type: 2}
+  - {fileID: 11400000, guid: e2e67c2198b69d3429cd228c42a0113f, type: 2}
   computeShader: {fileID: 7200000, guid: 3a534990e7346f147a9cca3aef65d000, type: 3}
-  Devices: GPU
+  Devices: GPU.1
   Models: YOLOXLarge
   nmsThreshold: 0.45
-  minConfidence: 0.3
+  minConfidence: 0.6
