@@ -51,7 +51,7 @@ Drag the toolkit folder into the `Project → Assets` directory.
 
 ## Add Inference Features
 
-As mentioned in the previous tutorial, the toolkit adds a graphical user interface (GUI) for adding inference features to a scene.
+As mentioned in the previous tutorial, the toolkit provides a graphical user interface (GUI) for adding inference features to a scene.
 
 ![toolkit_menu](images/getting-started-hdrp/toolkit-menu-hdrp.png)
 
