@@ -230,7 +230,7 @@ Now if we press play, we should see that bounding boxes are drawn around objects
 
 The full list of object types that can be detected using the `COCO_YOLOX` inference feature is provided below.
 
-COCO Dataset Object Classes
+#### COCO Dataset Object Classes
 
 | Index | Name           |
 | ----- | -------------- |
