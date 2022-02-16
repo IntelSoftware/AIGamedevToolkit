@@ -135,7 +135,7 @@ We can use the same `MainCamera_Texture` asset we used in the previous tutorial.
 
 
 
-Scroll down to the `After Post Process` field and click on the `+` sign to add a new entry.
+Finally, scroll down to the `After Post Process` field and click on the `+` sign to add a new entry.
 
 ![add-to-after-post-process](images/getting-started-hdrp/add-to-after-post-process.png)
 
