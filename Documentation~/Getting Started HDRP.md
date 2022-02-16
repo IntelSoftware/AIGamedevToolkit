@@ -101,11 +101,7 @@ We can access the texture data for the current frame with a [custom volume compo
 
 ![hdrptexturehelper-file-location](images/getting-started-hdrp/hdrptexturehelper-file-location.png)
 
-It provides the same functionality as the `CameraTextureHelper.cs` script used for the Built-in Render Pipeline.
-
-We need to add this volume component to the `Default Volume Profile Asset` in the Project Settings.
-
-Open the Project Settings folder and select the `HDRP Default Settings` submenu.
+It provides the same functionality as the `CameraTextureHelper.cs` script used for the Built-in Render Pipeline. We need to add this volume component to the `Default Volume Profile Asset` in the Project Settings. Open the Project Settings folder and select the `HDRP Default Settings` submenu.
 
 ![hdrp-default-settings-2020](images/getting-started-hdrp/hdrp-default-settings-2020.png)
 
