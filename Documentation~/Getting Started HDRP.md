@@ -81,8 +81,6 @@ Back in the AIGamedevToolkit window, deselect the `COCO_YOLOX` inference feature
 
 ![apply-inference-feature-to-scene](images/getting-started-hdrp/apply-inference-feature-to-scene-hdrp.png)
 
-The toolkit makes some assumptions about the scene when adding inference features through the `AI Gamedev Toolkit` window.
-
 
 
 ## Render Pipeline Setup
