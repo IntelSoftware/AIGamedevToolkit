@@ -129,7 +129,7 @@ Open the `Input Textures Param` dropdown and click on the `+` sign.
 
 ![add-new-entry-to-inputtexturesparam](images/getting-started-hdrp/add-new-entry-to-inputtexturesparam.png)
 
-We can use the same `MainCamer_Texture` asset we used in the previous tutorial.
+We can use the same `MainCamera_Texture` asset we used in the previous tutorial.
 
 ![add-maincamera-texture-asset](images/getting-started-hdrp/add-maincamera-texture-asset.png)
 
