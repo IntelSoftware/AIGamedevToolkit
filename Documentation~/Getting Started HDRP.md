@@ -63,7 +63,7 @@ Once again, unsafe code needs to be enabled to use OpenVINO inference features.
 
 ![toolkit-inference-feature-window](images/getting-started-hdrp/toolkit-inference-feature-window.png)
 
-Unsafe code can be enabled in the the Player Settings, just like when using the Built-in Render Pipeline
+Unsafe code can be enabled in the the Player Settings, just like when using the Built-in Render Pipeline.
 
 ![scroll-to-unsafe-code-option](images/getting-started-hdrp/scroll-to-unsafe-code-option-hdrp.png)
 
