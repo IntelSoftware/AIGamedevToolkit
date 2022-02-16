@@ -153,7 +153,7 @@ Now we can press play to see the style transfer inference feature applied to the
 
 ![test-hdrp-barracuda-style-transfer](images/getting-started-hdrp/test-hdrp-barracuda-style-transfer.png)
 
-Additionally, the YOLOX inference feature can detect in-game objects.
+Additionally, the YOLOX inference feature can detect in-game objects. The target in-game objects should be on the [list of objects](https://github.com/IntelSoftware/AIGamedevToolkit/blob/main/Documentation~/Getting%20Started.md#coco-dataset-object-classes) the YOLOX models were trained to detect.
 
 ![test-hdrp-yolox-1](images/getting-started-hdrp/test-hdrp-yolox-1.png)
 
