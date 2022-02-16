@@ -121,7 +121,7 @@ Type `HDRP` into the search box and select `HDRPTextureHelper`
 
 
 
-As with the `CameraTextureHelper.cs` script, the `HDRPTextureHelper` has a list of `InputRenderTexture `assets. Click on the toggle next to the `Input Textures Param` field to make it editable.
+As with the `CameraTextureHelper.cs` script, the `HDRPTextureHelper` has a list of `InputRenderTexture` assets. Click on the toggle next to the `Input Textures Param` field to make it editable.
 
 ![make-inputtextureparam-editable](images/getting-started-hdrp/make-inputtextureparam-editable.png)
 
