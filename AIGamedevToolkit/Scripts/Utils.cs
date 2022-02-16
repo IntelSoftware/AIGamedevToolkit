@@ -67,12 +67,9 @@ namespace AIGamedevToolkit
         public static void AddTextureHelper()
         {
             #if HDPipeline
-            string helper_string = "AIGamedevToolkit.HDRPTextureHelper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
-
-            
-            RenderPipelineAsset currentSettings = GraphicsSettings.defaultRenderPipeline;
-            
-            SerializedObject currentSettingsSO = new SerializedObject(currentSettings);
+            //string helper_string = "AIGamedevToolkit.HDRPTextureHelper, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null";
+            //RenderPipelineAsset currentSettings = GraphicsSettings.defaultRenderPipeline;
+            //SerializedObject currentSettingsSO = new SerializedObject(currentSettings);
 
             //SerializedProperty m_DefaultVolumeProfile = currentSettingsSO.FindProperty("m_DefaultVolumeProfile");
             //VolumeProfile volumeProfile = (VolumeProfile)m_DefaultVolumeProfile.objectReferenceValue;
