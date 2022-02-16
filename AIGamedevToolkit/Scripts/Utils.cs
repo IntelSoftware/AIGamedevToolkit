@@ -128,30 +128,30 @@ namespace AIGamedevToolkit
 
 
 
-            SerializedProperty afterPostProcessCustomPostProcesses = currentSettingsSO.FindProperty("afterPostProcessCustomPostProcesses");
+            //SerializedProperty afterPostProcessCustomPostProcesses = currentSettingsSO.FindProperty("afterPostProcessCustomPostProcesses");
 
-            bool isPresent = false;
-            for (int i = 0; i < afterPostProcessCustomPostProcesses.arraySize; i++)
-            {
-                if (afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(i).stringValue == helper_string)
-                {
-                    isPresent = true;
-                    break;
-                }
-            }
+            //bool isPresent = false;
+            //for (int i = 0; i < afterPostProcessCustomPostProcesses.arraySize; i++)
+            //{
+            //    if (afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(i).stringValue == helper_string)
+            //    {
+            //        isPresent = true;
+            //        break;
+            //    }
+            //}
 
-            if (!isPresent)
-            {
-                int arraySize = afterPostProcessCustomPostProcesses.arraySize;
-                afterPostProcessCustomPostProcesses.InsertArrayElementAtIndex(arraySize);
-                afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(arraySize).stringValue = helper_string;
-            }
-            else
-            {
-                //Debug.Log("HDRPTextureHelper already added to afterPostProcessCustomPostProcesses");
-            }
-            EditorUtility.SetDirty(currentSettings);
-            currentSettingsSO.ApplyModifiedProperties();
+            //if (!isPresent)
+            //{
+            //    int arraySize = afterPostProcessCustomPostProcesses.arraySize;
+            //    afterPostProcessCustomPostProcesses.InsertArrayElementAtIndex(arraySize);
+            //    afterPostProcessCustomPostProcesses.GetArrayElementAtIndex(arraySize).stringValue = helper_string;
+            //}
+            //else
+            //{
+            //    //Debug.Log("HDRPTextureHelper already added to afterPostProcessCustomPostProcesses");
+            //}
+            //EditorUtility.SetDirty(currentSettings);
+            //currentSettingsSO.ApplyModifiedProperties();
             
             #else
             Camera camera = GetCamera();
