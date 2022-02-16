@@ -85,7 +85,7 @@ Back in the AIGamedevToolkit window, deselect the `COCO_YOLOX` inference feature
 
 ## Render Pipeline Setup
 
-We need to let the toolkit know which Render Pipeline we are using. Open the `AIGamedevToolkit` submenu and select `Render Pipeline Setup...`.
+We need to let the toolkit know which Render Pipeline we are using. Open the `AI Gamedev Toolkit` submenu and select `Render Pipeline Setup...`.
 
 ![open-render-pipeline-setup](images/getting-started-hdrp/open-render-pipeline-setup.png)
 
