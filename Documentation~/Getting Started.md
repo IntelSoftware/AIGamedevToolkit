@@ -11,6 +11,7 @@
 * [Allow Unsafe Code](#allow-unsafe-code)
 * [Install Barracuda Package](#install-barracuda-package)
 * [Add Input Data](#add-input-data)
+* [Prepare Streaming Assets](#prepare-streaming-assets)
 
 
 
@@ -326,3 +327,103 @@ The full list of object types that can be detected using the `COCO_YOLOX` infere
 As mentioned before, we can can also stack multiple inference features. Although, this might not be advisable for performance reasons, depending on the models being used.
 
 ![stack-inference-features](images/getting-started/stack-inference-features.png)
+
+
+
+
+
+
+
+## Prepare Streaming Assets
+
+When using OpenVINO inference features, there are some additional steps we need to take before building a project. Unity does not save the .xml and .bin files used by OpenVINO inference features in builds. These need to be copied to the `StreamingAssets` folder before building the project.
+
+Select the Inference Manager object in the Hierarchy tab. Open the `Model Assets` dropdown menu for any OpenVINO inference feature in the Inspector tab.
+
+![inference-manager-model-assets](images/getting-started/inference-manager-model-assets.png)
+
+
+
+Right-click one of the model assets and select `Properties`. A new window will appear with the properties for the selected model asset.
+
+![select-model-asset-properties](images/getting-started/select-model-asset-properties.png)
+
+
+
+Here, we can see there is a field called `Streaming Assets Path`. This field needs to contain the name of a subfolder located in the `StreamingAssets` folder. There may already be a folder name in the input field.
+
+![model-asset-propterties-window](images/getting-started/model-asset-propterties-window.png)
+
+We can also click the `Browse` button to select or create a different folder inside the StreamingAssets folder. Make sure there is a StreamingAssets folder before changing the subfolder name.
+
+Once a folder is selected, we can click the `Copy to StreamingAssets` button to copy the files for the model asset to the StreamingAssets folder.
+
+![copy-model-files-to-streaming-assets](images/getting-started/copy-model-files-to-streaming-assets.png)
+
+Clicking this button will also create a StreamingAssets folder if one did not already exist. We need to repeat this for any Model Assets we want to keep in the build.
+
+Note there is also a `Copy to StreamingAssets` button for the parent inference feature. Clicking this button will copy the model files for all attached Model Assets to their selected StreamingAssets subfolders.
+
+![inference-feature-copy-to-streaming-assets](images/getting-started/inference-feature-copy-to-streaming-assets.png)
+
+We can verify the desired model files were copied by looking in the Assets > StreamingAssets folder.
+
+![verify-streaming-assets](images/getting-started/verify-streaming-assets.png)
+
+
+
+## Build the Project
+
+There is one last step required before we can build the project. The video screen uses the `Unlit/Texture` shader. By default, the `Unlit/Texture` shader is not included in project builds. We need to manually include it in the project settings
+
+Open the `Project Settings` and select the `Graphics` submenu.
+
+![project-settings-graphics](images/getting-started/project-settings-graphics.png)
+
+Scroll down to the `Always Included Shaders` field.
+
+![always-included-shaders](images/getting-started/always-included-shaders.png)
+
+Increase the `Size` value by one to add a new element.
+
+![always-included-shaders-new-element](images/getting-started/always-included-shaders-new-element.png)
+
+Click on the little circle icon at the end of the new shader element.
+
+![shader-selectiong-button](images/getting-started/shader-selectiong-button.png)
+
+Type `Unlit/Texture` shader into the `Select Shader` window and select `Unlit/Texture` from the available options. We can then close the `Select Shader` window.
+
+![select-unlit-texture-shader](G:\Projects\GitHub\IntelSoftware\AIGamedevToolkit\Documentation~\images\getting-started\select-unlit-texture-shader.png)
+
+
+
+
+We should now be ready to build the project. Press `Ctrl+B` to build and run the project. Create a build folder if one does not already exist and click `Select Folder`.
+
+![create-build-folder](images/getting-started/create-build-folder.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
