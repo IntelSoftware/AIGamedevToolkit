@@ -151,7 +151,7 @@ namespace AIGamedevToolkit
             // Execute model
             styleTransferBarracuda.Exectute(tempTex);
             // Perform postprocessing steps
-            if (PlayerSettings.colorSpace == ColorSpace.Gamma)
+            if (QualitySettings.activeColorSpace == ColorSpace.Gamma)
             {
                 ProcessImage(tempTex, "ProcessOutput");
             }
