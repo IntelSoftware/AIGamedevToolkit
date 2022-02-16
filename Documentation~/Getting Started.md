@@ -12,6 +12,7 @@
 * [Install Barracuda Package](#install-barracuda-package)
 * [Add Input Data](#add-input-data)
 * [Prepare Streaming Assets](#prepare-streaming-assets)
+* [Build the Project](#build-the-project)
 
 
 
@@ -394,7 +395,7 @@ Click on the little circle icon at the end of the new shader element.
 
 Type `Unlit/Texture` shader into the `Select Shader` window and select `Unlit/Texture` from the available options. We can then close the `Select Shader` window.
 
-![select-unlit-texture-shader](G:\Projects\GitHub\IntelSoftware\AIGamedevToolkit\Documentation~\images\getting-started\select-unlit-texture-shader.png)
+![select-unlit-texture-shader](images/getting-started/select-unlit-texture-shader.png)
 
 
 
