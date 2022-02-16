@@ -97,7 +97,7 @@ The toolkit will detect the current render pipeline and offer to perform the req
 
 ## Add Volume Component 
 
-We can access the texture data for the current frame with a [custom volume component](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@10.8/api/UnityEngine.Rendering.HighDefinition.CustomPostProcessVolumeComponent.html). The toolkit includes a preconfigured volume component called `HDRPTextureHelper`
+We can access the texture data for the current frame with a [custom volume component](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@10.8/api/UnityEngine.Rendering.HighDefinition.CustomPostProcessVolumeComponent.html). The toolkit includes a preconfigured volume component called `HDRPTextureHelper`.
 
 ![hdrptexturehelper-file-location](images/getting-started-hdrp/hdrptexturehelper-file-location.png)
 
