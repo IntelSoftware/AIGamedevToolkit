@@ -18,4 +18,4 @@ For more information about Gaia ML and the integration of the AI Gamedev Toolkit
 
 ## Change Log
 
-2023-2-07: Upgrade OpenVINO to 2022.2 version
+2023-02-07: Upgrade OpenVINO to 2022.2 version
