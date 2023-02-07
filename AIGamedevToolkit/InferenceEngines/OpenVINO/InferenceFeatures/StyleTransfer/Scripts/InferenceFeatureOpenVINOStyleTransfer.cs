@@ -169,13 +169,16 @@ namespace AIGamedevToolkit
             if (styleTransferOpenVINO == null) return;
 
             // Initialize OpenVINO plugin using the current model and compute device
-            if (Devices.Length > 0 && Models.Length > 0)
+            if (Application.isPlaying)
             {
-                styleTransferOpenVINO.InitializePlugin(GetCurrentModelPath(), deviceList.IndexOf(Devices));
-            }
-            else
-            {
-                styleTransferOpenVINO.InitializePlugin(modelAssets[0].modelPath, 0);
+                if (Devices.Length > 0 && Models.Length > 0)
+                {
+                    styleTransferOpenVINO.InitializePlugin(GetCurrentModelPath(), deviceList.IndexOf(Devices));
+                }
+                else
+                {
+                    styleTransferOpenVINO.InitializePlugin(modelAssets[0].modelPath, 0);
+                }
             }
         }
 

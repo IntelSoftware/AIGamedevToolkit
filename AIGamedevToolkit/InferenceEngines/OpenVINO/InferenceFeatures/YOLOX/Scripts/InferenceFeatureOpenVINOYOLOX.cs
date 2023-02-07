@@ -201,14 +201,17 @@ namespace AIGamedevToolkit
             yoloxOpenVINO.InputDims = this.imageDims;
 
             // Initialize OpenVINO plugin using the current model and compute device
-            if (Devices.Length > 0 && Models.Length > 0)
+            if (Application.isPlaying)
             {
-                yoloxOpenVINO.InitializePlugin(GetCurrentModelPath(), deviceList.IndexOf(Devices));
+                if (Devices.Length > 0 && Models.Length > 0)
+                {
+                    yoloxOpenVINO.InitializePlugin(GetCurrentModelPath(), deviceList.IndexOf(Devices));
+                }
+                else
+                {
+                    yoloxOpenVINO.InitializePlugin(modelAssets[0].modelPath, 0);
+                }
             }
-            else
-            {
-                yoloxOpenVINO.InitializePlugin(modelAssets[0].modelPath, 0);
-            }            
         }
 
         /// <summary>
